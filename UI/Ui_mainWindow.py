@@ -613,7 +613,7 @@ class Ui_mainWindow(object):
 "")
         self.editStopRecBtn.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icon/stop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap("e:\\CSCI3280\\project\\sound_recording\\UI\\icon/stop.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.editStopRecBtn.setIcon(icon5)
         self.editStopRecBtn.setIconSize(QtCore.QSize(40, 40))
         self.editStopRecBtn.setObjectName("editStopRecBtn")
@@ -858,4 +858,3 @@ class Ui_mainWindow(object):
         self.speedControl.setItemText(4, _translate("mainWindow", "2.0x"))
         self.speedControl.setItemText(5, _translate("mainWindow", "4.0x"))
         self.playerMessage.setText(_translate("mainWindow", "Message:"))
-import icon_rc

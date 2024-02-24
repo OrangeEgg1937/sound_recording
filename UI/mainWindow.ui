@@ -1440,8 +1440,8 @@ background-color: rgb(145, 145, 145)
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="icon/icon.qrc">
-                 <normaloff>:/icon/stop.png</normaloff>:/icon/stop.png</iconset>
+                <iconset>
+                 <normaloff>icon/stop.png</normaloff>icon/stop.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1908,8 +1908,6 @@ color: rgb(255, 255, 255)
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="icon/icon.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
