@@ -91,6 +91,12 @@ class RecordingHandler:
 
         self.audio.__del__()
         self.audio = None
+
+        # reset the current recorded time
+        self.currentRecordedTime = 0
+
+        # update the time
+        self.uiElements.recordTime.setText("00:00:00")
     
     # listener for the pause record button
     def __pauseRecordButtonClicked(self):

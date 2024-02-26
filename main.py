@@ -32,7 +32,7 @@ if __name__ == "__main__":
       recordingHandler = RecordingHandler(ui, mainWindow)
 
       # define the audio editing handler
-      # audioEditingHandler = AudioEditingHandler(ui, mainWindow, importHandler)
+      audioEditingHandler = AudioEditingHandler(ui, mainWindow, importHandler)
 
       # show the main window
       mainWindow.show()
