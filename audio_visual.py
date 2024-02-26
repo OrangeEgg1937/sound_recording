@@ -1,41 +1,34 @@
-import matplotlib.pyplot as plt
-import librosa.display
+import wave
 import numpy as np
+import matplotlib.pyplot as plt
 
-def visualize_audio(filename, duration=5):
-    # Load the audio file
-    audio, sr = librosa.load(filename)
+# Open the .wav file
+wav_file = wave.open('sample-file-4.wav', 'rb')
 
-    # Calculate the number of frames for the given duration
-    frame_duration = duration * sr
+# Get the number of frames, channels, and sample width
+num_frames = wav_file.getnframes()
+num_channels = wav_file.getnchannels()
+sample_width = wav_file.getsampwidth()
 
-    # Calculate the total number of frames
-    total_frames = len(audio)
+# Read the raw audio data
+raw_data = wav_file.readframes(num_frames)
 
-    # Calculate the number of segments
-    num_segments = int(np.ceil(total_frames / frame_duration))
+# Convert the raw byte data to a NumPy array of integers
+audio_data = np.frombuffer(raw_data, dtype=np.int16)
 
-    # Create subplots for each segment
-    fig, axes = plt.subplots(num_segments, 1, figsize=(10, 5 * num_segments))
-    if num_segments == 1:  # If only one segment, axes will not be iterable
-        axes = [axes]
+# Close the .wav file
+wav_file.close()
 
-    # Iterate over segments and plot the waveform
-    for i, ax in enumerate(axes):
-        start_frame = i * frame_duration
-        end_frame = min((i + 1) * frame_duration, total_frames)
-        segment = audio[start_frame:end_frame]
+# Calculate the duration of the audio
+duration = num_frames / float(wav_file.getframerate())
 
-        # Display the waveform
-        librosa.display.waveplot(segment, sr=sr, ax=ax)
-        ax.set(title=f"Segment {i+1}", xlabel='Time (s)', ylabel='Amplitude')
+# Create a time axis based on the duration of the audio
+time = np.arange(len(audio_data))
 
-    # Adjust spacing between subplots
-    plt.tight_layout()
-
-    # Show the plot
-    plt.show()
-
-# Example usage
-filename = "sample-file-4.wav"
-visualize_audio(filename, duration=5)
+# Plot the audio waveform
+plt.plot(time, audio_data)
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
+plt.title('Audio Waveform')
+plt.grid(True)
+plt.show()
