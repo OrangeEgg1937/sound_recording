@@ -1,5 +1,4 @@
 # Define the AudioPlayerSettingHandler class
-import pyaudio
 import os
 from PyQt5.QtWidgets import QFileDialog, QMainWindow, QListWidget, QListWidgetItem, QWidget
 from PyQt5.QtCore import Qt
@@ -16,8 +15,7 @@ class ImportedFile:
 class ImportHandler:
     currentSelectedFile = None
 
-    def __init__(self, p:pyaudio.PyAudio, uiElements:Ui_mainWindow, mainWindow:QMainWindow):
-        self.p = p
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
         self.inputDevice = -1

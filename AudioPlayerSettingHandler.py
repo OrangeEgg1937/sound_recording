@@ -1,5 +1,4 @@
 # Define the AudioPlayerSettingHandler class
-import pyaudio
 import os
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from PyQt5.QtCore import Qt
@@ -8,23 +7,22 @@ from UI.Ui_mainWindow import Ui_mainWindow
 # This class is mainly for the Setting page of the application
 
 class AudioPlayerSettingHandler:
-    def __init__(self, p:pyaudio.PyAudio, uiElements:Ui_mainWindow, mainWindow:QMainWindow):
-        self.p = p
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
         self.inputDevice = -1
         self.savingPath = os.getcwd()
 
         # Get the available audio devices
-        deviceCount = self.p.get_device_count()
+        # deviceCount = self.p.get_device_count()
 
-        # Add the available audio devices to the combo box
-        for i in range(deviceCount):
-            deviceInfo = self.p.get_device_info_by_index(i)
-            if deviceInfo.get('maxInputChannels') > 0 and deviceInfo["hostApi"] == 1:
-                # set the combo box item
-                self.uiElements.audioInputDriver.addItem(deviceInfo["name"])
-                self.uiElements.audioInputDriver.setItemData(self.uiElements.audioInputDriver.count()-1, i, role=Qt.UserRole)
+        # # Add the available audio devices to the combo box
+        # for i in range(deviceCount):
+        #     deviceInfo = self.p.get_device_info_by_index(i)
+        #     if deviceInfo.get('maxInputChannels') > 0 and deviceInfo["hostApi"] == 1:
+        #         # set the combo box item
+        #         self.uiElements.audioInputDriver.addItem(deviceInfo["name"])
+        #         self.uiElements.audioInputDriver.setItemData(self.uiElements.audioInputDriver.count()-1, i, role=Qt.UserRole)
 
         # Add the listener for the audio input driver combo box
         self.uiElements.audioInputDriver.currentIndexChanged.connect(self.__audioInputDriverChanged)

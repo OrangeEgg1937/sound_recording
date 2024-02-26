@@ -1,5 +1,4 @@
 import sys
-import pyaudio
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 # imort the UI file
@@ -14,7 +13,6 @@ from AudioEditingHandler import AudioEditingHandler
 if __name__ == "__main__":
       # initialize all the necessary objects
       app = QApplication(sys.argv) # create the application
-      p = pyaudio.PyAudio() # create the audio object
       mainWindow = QMainWindow() # create the main window
       ui = Ui_mainWindow() # create the UI object
 
@@ -22,19 +20,19 @@ if __name__ == "__main__":
       ui.setupUi(mainWindow) # setup the UI
 
       # define the audio player setting handler
-      audioPlayerSettingHandler = AudioPlayerSettingHandler(p, ui, mainWindow)
+      audioPlayerSettingHandler = AudioPlayerSettingHandler(ui, mainWindow)
 
       # define the import handler
-      importHandler = ImportHandler(p, ui, mainWindow)
+      importHandler = ImportHandler(ui, mainWindow)
 
       # define the player controller handler
-      playerControllerHandler = PlayerControllerHandler(p, ui, mainWindow, importHandler)
+      playerControllerHandler = PlayerControllerHandler(ui, mainWindow, importHandler)
 
       # define the recording handler
-      recordingHandler = RecordingHandler(p, ui, mainWindow)
+      recordingHandler = RecordingHandler(ui, mainWindow)
 
       # define the audio editing handler
-      audioEditingHandler = AudioEditingHandler(p, ui, mainWindow, importHandler)
+      # audioEditingHandler = AudioEditingHandler(ui, mainWindow, importHandler)
 
       # show the main window
       mainWindow.show()

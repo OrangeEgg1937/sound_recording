@@ -1,6 +1,5 @@
 # Define the PlayerControlHandler class
 import enum
-import pyaudio
 import playback
 import datetime
 
@@ -31,8 +30,7 @@ class PlayerControllerHandler:
     timer = None
     filePath = ""       # the current selected file path of the audio
 
-    def __init__(self, p:pyaudio.PyAudio, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler):
-        self.p = p
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
         self.importHandler = importHandler

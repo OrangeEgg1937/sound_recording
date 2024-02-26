@@ -1,7 +1,5 @@
 # Define the RecordingHandler class
 import enum
-import pyaudio
-import wave
 import datetime
 
 from UI.Ui_mainWindow import Ui_mainWindow
@@ -9,7 +7,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import QTimer
 from record import Audio
 
-FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 44100
 CHUNK = 1024
@@ -27,12 +24,12 @@ class RecordingHandler:
     recordingFile = None
     currentRecordedTime = 0.0
     stream = None
+    audio = None
 
     # for debug only
     frames = []
 
-    def __init__(self, p:pyaudio.PyAudio, uiElements:Ui_mainWindow, mainWindow:QMainWindow):
-        self.p = p
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
 
@@ -45,14 +42,17 @@ class RecordingHandler:
         # Add the listener for pause record button
         self.uiElements.pauseRecBtn.clicked.connect(self.__pauseRecordButtonClicked)
 
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.__updateTime)
+
     # listener for the record button
     def __recordButtonClicked(self):
         self.uiElements.playerMessage.setText("Recording...")
         self.recording = True
 
         # start recording
-        self.recordingFile = Audio(self.p)
-        self.recordingFile.start_recording()
+        self.audio = Audio()
+        self.audio.start_recording()
 
         # disable the record button
         self.uiElements.recordBtn.setEnabled(False)
@@ -62,9 +62,8 @@ class RecordingHandler:
         self.uiElements.pauseRecBtn.setEnabled(True)
 
         # start the timer
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.__updateTime)
         self.timer.start(1000)
+
 
     # listener for the stop record button
     def __stopRecordButtonClicked(self):
@@ -74,14 +73,14 @@ class RecordingHandler:
         self.timer.stop()
 
         # stop recording
-        self.recordingFile.stop_recording()
+        self.audio.stop_recording()
 
         # get the current time
         currentTime = datetime.datetime.now()
         formatted_datetime = currentTime.strftime("%d%m%y%H%M%S")
 
         # write the file
-        self.recordingFile.write_file(self.uiElements.SavingPath.text() + f"recording_{formatted_datetime}.wav")
+        self.audio.write(f"recording_{formatted_datetime}.wav")
 
         # enable the record button
         self.uiElements.recordBtn.setEnabled(True)
@@ -89,6 +88,9 @@ class RecordingHandler:
         # disable the stop and pause record button
         self.uiElements.saveRecBtn.setEnabled(False)
         self.uiElements.pauseRecBtn.setEnabled(False)
+
+        self.audio.__del__()
+        self.audio = None
     
     # listener for the pause record button
     def __pauseRecordButtonClicked(self):
@@ -100,7 +102,8 @@ class RecordingHandler:
     
     # update the time
     def __updateTime(self):
-        duration = datetime.timedelta(seconds=self.currentRecordedTime + 1)
+        self.currentRecordedTime += 1
+        duration = datetime.timedelta(seconds=self.currentRecordedTime)
 
         # calculate the time
         hours = duration.seconds // 3600
@@ -110,9 +113,3 @@ class RecordingHandler:
         # set the time
         self.uiElements.recordTime.setText(f"{hours:02}:{minutes:02}:{seconds:02}")
     
-    def startRecording(self):
-        # start Recording
-        self.stream = self.p.open(format=FORMAT, channels=CHANNELS,
-                rate=RATE, input=True,
-                frames_per_buffer=CHUNK)
-        self.uiElements.playerMessage.setText("recording...")

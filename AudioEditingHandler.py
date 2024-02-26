@@ -1,5 +1,4 @@
 # Define the AudioEditingHandler class
-import pyaudio
 import wave
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from PyQt5.QtCore import Qt
@@ -17,8 +16,7 @@ class AudioEditingHandler:
     filePath = ""
     audioEndTime = 0
     audioStartTime = 0
-    def __init__(self, p:pyaudio.PyAudio, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler):
-        self.p = p
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
         self.importHandler = importHandler

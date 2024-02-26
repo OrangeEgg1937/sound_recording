@@ -1,17 +1,14 @@
-import sounddevice as sd
-import numpy
-assert numpy
-# import pyaudio
+import pyaudio
 import threading
 
 class Audio():
     _num_channels = 1
-    # _sample_format = pyaudio.paInt16
+    _sample_format = pyaudio.paInt16
     _bit_per_sample = 16
     _sample_rate = 44100
-    # _audio = pyaudio.PyAudio()
+    _audio = pyaudio.PyAudio()
     _stream = None
-    _raw_byte = b''
+    _raw_data = b''
     _is_recording = False
 
     @property
@@ -42,28 +39,35 @@ class Audio():
         if type(frame_rate) is int:
             self._sample_rate = max(1, frame_rate)
 
-        self._stream = sd.RawInputStream(device=None, channels=self.num_channels, samplerate=self.sample_rate, callback=self._start_recording, dtype='int16')
+        self._stream = self._audio.open(
+            format=pyaudio.paInt16,
+            channels=self.num_channels,
+            rate=self.sample_rate,
+            input=True,
+            output=False,
+            start=False,
+            frames_per_buffer=512
+        )
 
     def __del__(self):
-        if type(self._stream) is sd.Stream:
-            self._stream.stop()
+        if type(self._audio) is pyaudio.PyAudio:
+            self._audio.terminate()
+        if type(self._stream) is pyaudio.Stream:
             self._stream.close()
 
     def start_recording(self):
-        self._raw_data = []
-        self._stream.start()
-        self._is_recording = True
-        # threading._start_new_thread(self._start_recording, ())
+        self._raw_data = b''
+        threading._start_new_thread(self._start_recording, ())
 
-    def _start_recording(self, indata, frames, time, status):
-        if self._is_recording:
-            self._raw_byte += bytes(indata)
-        else:
-            self._stream.stop()
+    def _start_recording(self):
+        self._stream.start_stream()
+        self._is_recording = True
+        while self._is_recording:
+            self._raw_data += self._stream.read(512, exception_on_overflow=False)
 
     def stop_recording(self):
         self._is_recording = False
-        self._stream.stop()
+        self._stream.stop_stream()
 
     def generate_wav(self):
         # ChunkID (RIFF)
@@ -93,9 +97,9 @@ class Audio():
         # Subchunk2ID (data-chunk)
         content += 0x64617461.to_bytes(4, 'big')
         # Subchunk2Size
-        content += len(self._raw_byte).to_bytes(4, 'little')
+        content += len(self._raw_data).to_bytes(4, 'little')
         # Data
-        content += self._raw_byte
+        content += self._raw_data
 
         return content
         
