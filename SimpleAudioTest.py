@@ -12,7 +12,7 @@ p = pyaudio.PyAudio()
 # dispaly the available audio devices
 for i in range(p.get_device_count()):
     # check if the device is an input device
-    if p.get_device_info_by_index(i).get('maxInputChannels') > 0 and p.get_device_info_by_index(i)["hostApi"] == 0:
+    if p.get_device_info_by_index(i).get('maxInputChannels') > 0:
         print(f"Input Device {i}: {p.get_device_info_by_index(i)}")
 
 # Open the microphone input stream

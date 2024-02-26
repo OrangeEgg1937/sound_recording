@@ -1,0 +1,13 @@
+<RCC>
+  <qresource>
+    <file>down-arrow.svg</file>
+    <file>icon/tap/editing.png</file>
+    <file>icon/tap/player.png</file>
+    <file>icon/tap/plus.png</file>
+    <file>icon/tap/recording.png</file>
+    <file>icon/pause.png</file>
+    <file>icon/play.png</file>
+    <file>icon/record.png</file>
+    <file>icon/stop.png</file>
+  </qresource>
+</RCC>

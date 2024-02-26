@@ -49,10 +49,11 @@ class PlayerControllerHandler:
         # Add the listener for the speed control
         self.uiElements.speedControl.currentIndexChanged.connect(self.__speedControlChanged)
 
-        # Add the listener for the seekbar/slider
+        # # Add the listener for the seekbar/slider
         self.uiElements.audioProgBar.sliderMoved.connect(self.__sliderReleased)
         self.uiElements.audioProgBar.sliderReleased.connect(self.__sliderReleased)
-        self.uiElements.audioProgBar.sliderMoved.connect(self.__sliderReleased)
+        # self.uiElements.audioProgBar.sliderPressed.connect(self.__sliderReleased)
+        # self.uiElements.audioProgBar.valueChanged.connect(self.__sliderReleased)
 
         # Add the listener when the user select a new file
         self.uiElements.audioFileList.itemPressed.connect(self.setPlayerInfo)
@@ -85,7 +86,7 @@ class PlayerControllerHandler:
 
         # set the time of the audio to display
         self.uiElements.currentTime.setText(self.seconds_to_time(self.audioCurrTime))
-        self.uiElements.endTime.setText("|" + self.seconds_to_time(self.audioEndTime))
+        self.uiElements.endTime.setText(self.seconds_to_time(self.audioEndTime))
 
         # start counting the playing time
         # 1000ms/speed is the interval of the timer.
@@ -131,8 +132,6 @@ class PlayerControllerHandler:
         # set the message
         self.uiElements.playerMessage.setText("Speed changed to " + self.uiElements.speedControl.currentText())
     
-
-    
     # Assume when the user released the slider, stop the current audio first, play the audio from the new position
     def __sliderReleased(self):
         # stop the audio
@@ -150,15 +149,15 @@ class PlayerControllerHandler:
         self.uiElements.playerMessage.setText("Moved slider:" + self.seconds_to_time(self.audioCurrTime) + "s"  + "Current status: " + str(self.status))
         
         # resume the audio
-        if self.status == PlayerStatus.PAUSE:
-            self.__playButtonClicked() # play the audio from the new position
+        # if self.status == PlayerStatus.PAUSE:
+        #     self.__playButtonClicked() # play the audio from the new position
     
     # Reset the starting time of the player
     def resetPlayer(self):
         self.audioCurrTime = 0
         self.uiElements.audioProgBar.setValue(0)
         self.uiElements.currentTime.setText("00:00:00")
-        self.uiElements.endTime.setText("|" + self.seconds_to_time(self.audioEndTime))
+        self.uiElements.endTime.setText(self.seconds_to_time(self.audioEndTime))
         self.status = PlayerStatus.STOP
         playback.sd.stop()
         self.timer.stop()
@@ -193,7 +192,7 @@ class PlayerControllerHandler:
         self.uiElements.audioProgBar.setMaximum(int(self.audioEndTime))
         self.uiElements.audioProgBar.setValue(0)
         self.uiElements.currentTime.setText("00:00:00")
-        self.uiElements.endTime.setText("|" + self.seconds_to_time(self.audioEndTime))
+        self.uiElements.endTime.setText(self.seconds_to_time(self.audioEndTime))
 
         # set the player message
         self.uiElements.playerMessage.setText("File selected, ready to play!")
