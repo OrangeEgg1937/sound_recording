@@ -8,6 +8,7 @@ from ImportHandler import ImportHandler
 from PlayerControllerHandler import PlayerControllerHandler
 from RecordingHandler import RecordingHandler
 from AudioEditingHandler import AudioEditingHandler
+from AudioVisualHandler import AudioVisualHandler
 
 # main program
 if __name__ == "__main__":
@@ -33,6 +34,9 @@ if __name__ == "__main__":
 
       # define the audio editing handler
       audioEditingHandler = AudioEditingHandler(ui, mainWindow, importHandler)
+
+      # define the audio visual handler
+      audioVisualHandler = AudioVisualHandler(ui, mainWindow, importHandler, ui.mainAudioVisual)
 
       # show the main window
       mainWindow.show()
