@@ -93,7 +93,9 @@ class Audio():
         # Subchunk2ID (data-chunk)
         content += 0x64617461.to_bytes(4, 'big')
         # Subchunk2Size
-        content += len(self._raw_byte).to_bytes(4, 'little')
+        # Subchunk2Size == size of "data" subchunk = Subchunk2ID + subchunk2Size + raw data in bytes
+        subchunk2Size = len(self._raw_byte) + 8
+        content += int(subchunk2Size).to_bytes(4, 'little')
         # Data
         content += self._raw_byte
 

@@ -192,6 +192,9 @@ class PlayerControllerHandler:
         self.uiElements.currentTime.setText("00:00:00")
         self.uiElements.endTime.setText(self.seconds_to_time(self.audioEndTime))
 
+        # print out the duration of the audio
+        print("Duration of the audio: " + str(playback.getDuration(self.filePath)) + "s")
+
         # set the player message
         self.uiElements.playerMessage.setText("File selected, ready to play!")
 

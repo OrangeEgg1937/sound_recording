@@ -35,19 +35,20 @@ class ImportHandler:
         # get the file path
         filePath = QFileDialog.getOpenFileName(self.mainWindow, "Select File", os.getcwd(), "Audio Files (*.wav *.mp3)")[0]
         fileName = os.path.basename(filePath)
-        temp = ImportedFile(filePath, fileName)
+        if(fileName != ""):
+            temp = ImportedFile(filePath, fileName)
 
-        # Create QListWidgetItem and set the name
-        item = QListWidgetItem(fileName)
+            # Create QListWidgetItem and set the name
+            item = QListWidgetItem(fileName)
 
-        # set the data for the item
-        item.setData(Qt.UserRole, temp)
+            # set the data for the item
+            item.setData(Qt.UserRole, temp)
 
-        # add the file to the list
-        self.uiElements.audioFileList.addItem(item)
+            # add the file to the list
+            self.uiElements.audioFileList.addItem(item)
 
-        # set the player message
-        self.uiElements.playerMessage.setText("File imported, select the file to play!")
+            # set the player message
+            self.uiElements.playerMessage.setText("File imported, select the file to play!")
     
     # listener for the user selected file
     def __itemPressed(self, item:QListWidgetItem):
@@ -73,5 +74,4 @@ class ImportHandler:
         if self.currentSelectedFile == None:
             return None
         return self.currentSelectedFile.path
-    
     

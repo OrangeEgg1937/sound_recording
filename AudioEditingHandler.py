@@ -1,13 +1,14 @@
 # Define the AudioEditingHandler class
-import wave
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from PyQt5.QtCore import Qt
 from UI.Ui_mainWindow import Ui_mainWindow
 from ImportHandler import ImportHandler
-import clipping
 import playback
 import datetime
 import re
+import clipping
+from record import Audio
+from PyQt5.QtCore import QTimer
 
 # This class is mainly for the Editing page of the application
 
@@ -16,6 +17,10 @@ class AudioEditingHandler:
     filePath = ""
     audioEndTime = 0
     audioStartTime = 0
+    recordedAudio = None
+    timer = None
+    currentRecordedTime = 0
+
     def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
@@ -50,6 +55,9 @@ class AudioEditingHandler:
 
         # Add the listener for the editStopRecBtn button
         self.uiElements.editStopRecBtn.clicked.connect(self.__editStopRecButtonClicked)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.__updateTime)
 
     # listener for the user selected file
     def __fileSelectedByUser(self):
@@ -131,7 +139,9 @@ class AudioEditingHandler:
             self.uiElements.editingMessage.setText("Invalid time input")
             return
         # set the editing message and display all varaibles
-        self.uiElements.editingMessage.setText(f"In AudioEditingHandler:__cutAndSaveButtonClicked(), st:{self.audioStartTime} et:{self.audioEndTime} path:{self.fileName}")
+        self.uiElements.editingMessage.setText(f"Audio is cutted, from:{self.audioStartTime} to:{self.audioEndTime} path:{self.fileName}")
+        clipping.trim(self.filePath, self.audioStartTime, self.audioEndTime)
+
     
     # listener for the overwrite button
     def __overwriteButtonClicked(self):
@@ -141,6 +151,10 @@ class AudioEditingHandler:
             return
         # set the editing message and display all varaibles
         self.uiElements.editingMessage.setText(f"In AudioEditingHandler:__overwriteButtonClicked(), st:{self.audioStartTime} et:{self.audioEndTime} path:{self.fileName}")
+
+        # overwrite the audio file
+        clipping.overwrite(self.filePath, "temp.wav", self.audioStartTime)
+        
   
     # listener for the editRecordBtn button
     def __editRecordButtonClicked(self):
@@ -158,11 +172,25 @@ class AudioEditingHandler:
         # enable the pause and stop button
         self.uiElements.editPauseRecBtn.setEnabled(True)
         self.uiElements.editStopRecBtn.setEnabled(True)
+
+        # start recording
+        self.recordedAudio = Audio()
+        self.recordedAudio.start_recording()
+
+        # update the time
+        self.uiElements.recordTime.setText("00:00:00")
+
+        # reset the current recorded time
+        self.currentRecordedTime = 0
+
+        # start the timer
+        self.timer.start(1000)
+
     
     # listener for the editPauseRecBtn button
     def __editPauseRecButtonClicked(self):
         # set the player message
-        self.uiElements.editingMessage.setText("Recording paused")
+        self.uiElements.editingMessage.setText("Recording paused [no function working]")
 
     # listener for the editStopRecBtn button
     def __editStopRecButtonClicked(self):
@@ -176,6 +204,20 @@ class AudioEditingHandler:
         # disable the pause and stop button
         self.uiElements.editPauseRecBtn.setEnabled(False)
         self.uiElements.editStopRecBtn.setEnabled(False)
+
+        # stop the timer
+        self.timer.stop()
+
+        # stop recording
+        self.recordedAudio.stop_recording()
+
+        # write the file
+        self.recordedAudio.write("temp.wav")
+
+        # availabe the overwriteBtn
+        self.uiElements.overwriteBtn.setEnabled(True)
+
+
 
     # return a string of the time in hh:mm:ss format
     def seconds_to_time(self, seconds) -> str :
@@ -210,3 +252,22 @@ class AudioEditingHandler:
             return True
         else:
             return False
+        
+    # Refresh the audio file list and current selected file
+    def refresh(self):
+        self.uiElements.audioFileList.clear()
+        self.importHandler.refreshAudioFileList()
+        self.uiElements.editFileName.setText(self.importHandler.getCurrentSelectedFile())
+
+    # update the time
+    def __updateTime(self):
+        self.currentRecordedTime += 1
+        duration = datetime.timedelta(seconds=self.currentRecordedTime)
+
+        # calculate the time
+        hours = duration.seconds // 3600
+        minutes = (duration.seconds % 3600) // 60
+        seconds = duration.seconds % 60
+
+        # set the time
+        self.uiElements.editRecordTime.setText(f"{hours:02}:{minutes:02}:{seconds:02}")
