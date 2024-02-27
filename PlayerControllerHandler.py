@@ -89,7 +89,7 @@ class PlayerControllerHandler:
         # start counting the playing time
         # 1000ms/speed is the interval of the timer.
         # e.g: 1.0x speed = 1000ms = 1s, 2.0x speed = 500ms = 0.5s, 0.5x speed = 2000ms = 2s
-        self.timer.start(1000/self.speed)
+        self.timer.start(int(1000/self.speed))
 
     # Update the slider and the current time by one step
     def __updateSlider(self):

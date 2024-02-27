@@ -74,12 +74,12 @@ class AudioEditingHandler:
         self.audioEndTime = len(self.audio)/(self.samples*self.channel*1.0)
 
         # set the starting time slider
-        self.uiElements.editStartingTimeSlider.setRange(0, self.audioEndTime)
+        self.uiElements.editStartingTimeSlider.setRange(0, int(self.audioEndTime))
         self.uiElements.editStartingTimeSlider.setValue(0)
 
         # set the ending time slider
-        self.uiElements.editEndingTimeSlider.setRange(0, self.audioEndTime)
-        self.uiElements.editEndingTimeSlider.setValue(self.audioEndTime)
+        self.uiElements.editEndingTimeSlider.setRange(0, int(self.audioEndTime))
+        self.uiElements.editEndingTimeSlider.setValue(int(self.audioEndTime))
 
         # set the starting time line edit
         self.uiElements.editStartingTime.setText("00:00:00")
