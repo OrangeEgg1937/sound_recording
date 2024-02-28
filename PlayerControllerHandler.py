@@ -234,7 +234,7 @@ class PlayerControllerHandler:
 
         # decode the file with raw byte and get the text
         raw_data, _, _ = playback.decode2Raw(self.filePath)
-        # record.speech_to_text(raw_data, self.samples)
+        #record.speech_to_text(raw_data, self.samples)
 
         # get the audio information
         self.audioEndTime = math.ceil(len(self.audio)/(self.samples*self.channel*1.0)) # in s

@@ -16,7 +16,7 @@ def getProperties(file):
         # check if the file is a valid wav file
         status = True
         if riff != b'RIFF' or fmt != b'fmt ' or data != b'data':
-            return 0, 0, 0, 0, False
+            status = False
         
         # get the properties of the file
         numChannels = struct.unpack('<H', header[22:24])[0]

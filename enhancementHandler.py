@@ -19,9 +19,19 @@ class EnhancementHandler:
         # connect the enhancement buttons
         self.ui.pitchChange.clicked.connect(self.__pitchShift)
 
+        # connect the enhancement buttons
+        self.ui.noiseRemoveBtn.clicked.connect(self.__noiseRemove)
+
+
+
     def __pitchShift(self):
         # get the file path
         filePath = self.importHandler.getCurrentSelectedFile()
+
+        # check the file path exist or not
+        if filePath == "":
+            self.__setMessage("Please select a file first!")
+            return
 
         # get the semitone value
         semitone = self.ui.pitchValue.text()
@@ -36,7 +46,24 @@ class EnhancementHandler:
 
         # set the player message
         self.__setMessage("Pitch changed, select the file to play!")
+    
+    def __noiseRemove(self):
+        # get the file path
+        filePath = self.importHandler.getCurrentSelectedFile()
+
+        # check the file path exist or not
+        if filePath == "":
+            self.__setMessage("Please select a file first!")
+            return
+
+        # remove the noise from the file
+
+
+        # set the player message
+        self.__setMessage("Noise removed, select the file to play!")
+        
 
 
     def __setMessage(self, string):
         self.message.setText(string)
+

@@ -1,0 +1,113 @@
+import sounddevice as sd
+import numpy
+assert numpy
+# import pyaudio
+import threading
+
+class Audio():
+    _num_channels = 1
+    # _sample_format = pyaudio.paInt16
+    _bits_per_sample = 16
+    _sample_rate = 44100
+    # _audio = pyaudio.PyAudio()
+    _stream = None
+    _raw_byte = b''
+    _is_recording = False
+
+    @property
+    def num_channels(self):
+        return self._num_channels
+
+    @property
+    def sample_rate(self):
+        return self._sample_rate
+    
+    @property
+    def bits_per_sample(self):
+        return self._bits_per_sample
+    
+    @property
+    def bytes_rate(self):
+        return self.sample_rate * self.num_channels * self.bits_per_sample / 8
+    
+    @property
+    def block_align(self):
+        return self.num_channels * self.bits_per_sample / 8
+
+    def __init__(self,
+                 num_channel: int = 1,
+                 frame_rate: int = 44100):
+        if type(num_channel) is int:
+            self._num_channels = max(1, num_channel)
+        if type(frame_rate) is int:
+            self._sample_rate = max(1, frame_rate)
+
+        self._stream = sd.RawInputStream(device=None, channels=self.num_channels, samplerate=self.sample_rate, callback=self._start_recording, dtype='int16')
+
+    def __del__(self):
+        if type(self._stream) is sd.Stream:
+            self._stream.stop()
+            self._stream.close()
+
+    def start_recording(self):
+        self._raw_data = []
+        self._stream.start()
+        self._is_recording = True
+        # threading._start_new_thread(self._start_recording, ())
+
+    def _start_recording(self, indata, frames, time, status):
+        if self._is_recording:
+            self._raw_byte += bytes(indata)
+        else:
+            self._stream.stop()
+
+    def stop_recording(self):
+        self._is_recording = False
+        self._stream.stop()
+
+    def generate_wav(self):
+        # ChunkID (RIFF)
+        content = 0x52494646.to_bytes(4, 'big')
+        # ChunkSize
+        content += int(36 + len(self._raw_data)).to_bytes(4, 'little')
+        # Format
+        content += 0x57415645.to_bytes(4, 'big')
+
+        # Subchunk1ID (fmt-chunk)
+        content += 0x666d7420.to_bytes(4, 'big')
+        # Subchunk1Size (16 for PCM)
+        content += int(16).to_bytes(4, 'little')
+        # AudioFormat (PCM)
+        content += int(1).to_bytes(2, 'little')
+        # NumChannels
+        content += int(self.num_channels).to_bytes(2, 'little')
+        # SampleRate
+        content += int(self.sample_rate).to_bytes(4, 'little')
+        # ByteRate
+        content += int(self.bytes_rate).to_bytes(4, 'little')
+        # BlockAlign
+        content += int(self.block_align).to_bytes(2, 'little')
+        # BitsPerSample
+        content += int(self.bits_per_sample).to_bytes(2, 'little')
+
+        # Subchunk2ID (data-chunk)
+        content += 0x64617461.to_bytes(4, 'big')
+        # Subchunk2Size
+        content += len(self._raw_byte).to_bytes(4, 'little')
+        # Data
+        content += self._raw_byte
+
+        return content
+        
+    def write(self, file_path: str):
+        with open(file_path, "wb") as file:
+            file.write(self.generate_wav())
+            file.close()
+
+    def speech_to_text(self):
+        import speech_recognition as sr
+        recognizer = sr.Recognizer()
+        audio_data = sr.AudioData(self._raw_byte, self.sample_rate, 2)
+        return recognizer.recognize_google(audio_data)
+
+    
