@@ -1124,7 +1124,7 @@ class Ui_mainWindow(object):
         mainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(mainWindow)
-        self.tap.setCurrentIndex(3)
+        self.tap.setCurrentIndex(0)
         self.speedControl.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 

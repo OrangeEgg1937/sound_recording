@@ -29,7 +29,7 @@ class EnhancementHandler:
         filePath = self.importHandler.getCurrentSelectedFile()
 
         # check the file path exist or not
-        if filePath == "":
+        if filePath == "" or filePath == None:
             self.__setMessage("Please select a file first!")
             return
 
@@ -52,7 +52,7 @@ class EnhancementHandler:
         filePath = self.importHandler.getCurrentSelectedFile()
 
         # check the file path exist or not
-        if filePath == "":
+        if filePath == "" or filePath == None:
             self.__setMessage("Please select a file first!")
             return
 
