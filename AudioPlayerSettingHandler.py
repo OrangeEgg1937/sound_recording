@@ -3,6 +3,7 @@ import os
 from PyQt5.QtWidgets import QFileDialog, QMainWindow
 from PyQt5.QtCore import Qt
 from UI.Ui_mainWindow import Ui_mainWindow
+import sounddevice as sd
 
 # This class is mainly for the Setting page of the application
 
@@ -14,15 +15,14 @@ class AudioPlayerSettingHandler:
         self.savingPath = os.getcwd()
 
         # Get the available audio devices
-        # deviceCount = self.p.get_device_count()
+        self.device_info = sd.query_devices(None, 'input')
 
-        # # Add the available audio devices to the combo box
-        # for i in range(deviceCount):
-        #     deviceInfo = self.p.get_device_info_by_index(i)
-        #     if deviceInfo.get('maxInputChannels') > 0 and deviceInfo["hostApi"] == 1:
-        #         # set the combo box item
-        #         self.uiElements.audioInputDriver.addItem(deviceInfo["name"])
-        #         self.uiElements.audioInputDriver.setItemData(self.uiElements.audioInputDriver.count()-1, i, role=Qt.UserRole)
+
+        print(self.device_info)
+        print(self.device_info['name'])
+
+        # Add the available input devices to the combo box
+        self.uiElements.audioInputDriver.addItem(self.device_info['name'], self.device_info['index'])
 
         # Add the listener for the audio input driver combo box
         self.uiElements.audioInputDriver.currentIndexChanged.connect(self.__audioInputDriverChanged)
@@ -51,4 +51,8 @@ class AudioPlayerSettingHandler:
     # get the saving path
     def getSavingPath(self):
         return self.savingPath
+    
+    # get the audio input driver
+    def getAudioInputDriver(self):
+        return self.device_info
 

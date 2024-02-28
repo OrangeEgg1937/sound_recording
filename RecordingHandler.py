@@ -6,6 +6,7 @@ from UI.Ui_mainWindow import Ui_mainWindow
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import QTimer
 from record import Audio
+from AudioPlayerSettingHandler import AudioPlayerSettingHandler
 
 CHANNELS = 2
 RATE = 44100
@@ -29,9 +30,10 @@ class RecordingHandler:
     # for debug only
     frames = []
 
-    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow):
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, audioPlayerSettingHandler:AudioPlayerSettingHandler):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
+        self.setting = audioPlayerSettingHandler
 
         # Add the listener for the record button
         self.uiElements.recordBtn.clicked.connect(self.__recordButtonClicked)
@@ -52,7 +54,7 @@ class RecordingHandler:
 
         # start recording
         self.audio = Audio()
-        self.audio.start_recording()
+        self.audio.start_recording(self.setting.getAudioInputDriver())
 
         # disable the record button
         self.uiElements.recordBtn.setEnabled(False)

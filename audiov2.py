@@ -1,72 +1,85 @@
-# python -m pip install pyaudio
-import pyaudio
-import wave
-import matplotlib.pyplot as plt
-import numpy as np
+#!/usr/bin/env python3
+"""Create a recording with arbitrary duration.
 
-FRAMES_PER_BUFFER = 3200
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 16000
+The soundfile module (https://PySoundFile.readthedocs.io/) has to be installed!
 
-pa = pyaudio.PyAudio()
+"""
+import argparse
+import tempfile
+import queue
+import sys
 
-stream = pa.open(
-    format=FORMAT,
-    channels=CHANNELS,
-    rate=RATE,
-    input=True,
-    frames_per_buffer=FRAMES_PER_BUFFER
-)
-
-print('start recording')
-
-seconds = 8
-frames = []
-second_tracking = 0
-second_count = 0
-for i in range(0, int(RATE/FRAMES_PER_BUFFER*seconds)):
-    data = stream.read(FRAMES_PER_BUFFER)
-    frames.append(data)
-    second_tracking += 1
-    if second_tracking == RATE/FRAMES_PER_BUFFER:
-        second_count += 1
-        second_tracking = 0
-        print(f'Time Left: {seconds - second_count} seconds')
+import sounddevice as sd
+import soundfile as sf
+import numpy  # Make sure NumPy is loaded before it is used in the callback
+assert numpy  # avoid "imported but unused" message (W0611)
 
 
-stream.stop_stream()
-stream.close()
-pa.terminate()
-
-obj = wave.open('lemaster_tech.wav', 'wb')
-obj.setnchannels(CHANNELS)
-obj.setsampwidth(pa.get_sample_size(FORMAT))
-obj.setframerate(RATE)
-obj.writeframes(b''.join(frames))
-obj.close()
+def int_or_str(text):
+    """Helper function for argument parsing."""
+    try:
+        return int(text)
+    except ValueError:
+        return text
 
 
-file = wave.open('lemaster_tech.wav', 'rb')
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument(
+    '-l', '--list-devices', action='store_true',
+    help='show list of audio devices and exit')
+args, remaining = parser.parse_known_args()
+if args.list_devices:
+    print(sd.query_devices())
+    parser.exit(0)
+parser = argparse.ArgumentParser(
+    description=__doc__,
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    parents=[parser])
+parser.add_argument(
+    'filename', nargs='?', metavar='FILENAME',
+    help='audio file to store recording to')
+parser.add_argument(
+    '-d', '--device', type=int_or_str,
+    help='input device (numeric ID or substring)')
+parser.add_argument(
+    '-r', '--samplerate', type=int, help='sampling rate')
+parser.add_argument(
+    '-c', '--channels', type=int, default=1, help='number of input channels')
+parser.add_argument(
+    '-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
+args = parser.parse_args(remaining)
 
-sample_freq = file.getframerate()
-frames = file.getnframes()
-signal_wave = file.readframes(-1)
-
-file.close()
-
-time = frames / sample_freq
+q = queue.Queue()
 
 
-# if one channel use int16, if 2 use int32
-audio_array = np.frombuffer(signal_wave, dtype=np.int16)
+def callback(indata, frames, time, status):
+    """This is called (from a separate thread) for each audio block."""
+    if status:
+        print(status, file=sys.stderr)
+    q.put(indata.copy())
 
-times = np.linspace(0, time, num=frames)
 
-plt.figure(figsize=(15, 5))
-plt.plot(times, audio_array)
-plt.ylabel('Signal Wave')
-plt.xlabel('Time (s)')
-plt.xlim(0, time)
-plt.title('The Thing I Just Recorded!!')
-plt.show()
+try:
+    if args.samplerate is None:
+        device_info = sd.query_devices(args.device, 'input')
+        # soundfile expects an int, sounddevice provides a float:
+        args.samplerate = int(device_info['default_samplerate'])
+    if args.filename is None:
+        args.filename = tempfile.mktemp(prefix='delme_rec_unlimited_',
+                                        suffix='.wav', dir='')
+
+    # Make sure the file is opened before recording anything:
+    with sf.SoundFile(args.filename, mode='x', samplerate=args.samplerate,
+                      channels=args.channels, subtype=args.subtype) as file:
+        with sd.InputStream(samplerate=args.samplerate, device=1,
+                            channels=args.channels, callback=callback):
+            print('#' * 80)
+            print('press Ctrl+C to stop the recording')
+            print('#' * 80)
+            while True:
+                file.write(q.get())
+except KeyboardInterrupt:
+    print('\nRecording finished: ' + repr(args.filename))
+    parser.exit(0)
+except Exception as e:
+    parser.exit(type(e).__name__ + ': ' + str(e))

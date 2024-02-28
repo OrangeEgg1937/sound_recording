@@ -2,11 +2,14 @@
 import enum
 import playback
 import datetime
+import math
+import record
 
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import QTimer
 from UI.Ui_mainWindow import Ui_mainWindow
 from ImportHandler import ImportHandler
+from AudioVisualHandler import AudioVisualHandler
 
 # Player status
 class PlayerStatus(enum.Enum):
@@ -24,16 +27,17 @@ class PlayerControllerHandler:
     audio = None
     samples = None
     channel = None
-    audioCurrTime = 0   # the current time of the audio (in seconds)
+    audioCurrTime = 0.00   # the current time of the audio (in s)
     startTime = 0       # not used
-    audioEndTime = 0    # the end time of the audio
+    audioEndTime = 0.00    # the end time of the audio (in s)
     timer = None
     filePath = ""       # the current selected file path of the audio
 
-    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler):
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler, audioVisualHandler:AudioVisualHandler):
         self.uiElements = uiElements
         self.mainWindow = mainWindow
         self.importHandler = importHandler
+        self.audioVisualHandler = audioVisualHandler
 
         # Add the listener for the play button
         self.uiElements.playBtn.clicked.connect(self.__playButtonClicked)
@@ -60,7 +64,7 @@ class PlayerControllerHandler:
         self.timer = QTimer()
 
         # set the listener for the timer when count to 
-        self.timer.timeout.connect(self.__updateSlider) # the audioProgBar value is incremented by 1 when the timer is triggered
+        self.timer.timeout.connect(self.__updateWhenTimeout) # the audioProgBar value is incremented by 1 when the timer is triggered
 
     def __playButtonClicked(self):        
         # if the audio file is playing or invalid file path, return
@@ -82,22 +86,30 @@ class PlayerControllerHandler:
         # play the audio
         playback.play_audio(self.speed, self.audio, self.samples, self.channel, self.audioCurrTime)
 
+        # get the current time of the audio
+        self.audioCurrTime = self.uiElements.audioProgBar.value()/100.0
+
         # set the time of the audio to display
-        self.uiElements.currentTime.setText(self.seconds_to_time(self.audioCurrTime))
-        self.uiElements.endTime.setText(self.seconds_to_time(self.audioEndTime))
+        self.uiElements.currentTime.setText(self.second_to_time(self.audioCurrTime))
+        self.uiElements.endTime.setText(self.second_to_timeNoMs(self.audioEndTime))
 
         # start counting the playing time
-        # 1000ms/speed is the interval of the timer.
-        # e.g: 1.0x speed = 1000ms = 1s, 2.0x speed = 500ms = 0.5s, 0.5x speed = 2000ms = 2s
-        self.timer.start(int(1000/self.speed))
+        # we would like to update the slider every 0.01 second (10ms)
+        # 1.0x speed: update it every 10ms, 1.5x speed: update it every 6.67ms, 
+        # 2.0x speed: update it every 5ms, 0.5x speed: update it every 20ms
+        # which is 1000/speed
+        self.timer.start(int(10/self.speed))
+
+        # disable the graph event
+        self.audioVisualHandler.disableGraphEvent()
 
     # Update the slider and the current time by one step
-    def __updateSlider(self):
+    def __updateWhenTimeout(self):
         self.uiElements.audioProgBar.setValue(self.uiElements.audioProgBar.value() + 1)
-        self.audioCurrTime = self.uiElements.audioProgBar.value()
-        self.uiElements.currentTime.setText(self.seconds_to_time(self.uiElements.audioProgBar.value()))
+        self.audioCurrTime = self.sliderValueToSeconds(self.uiElements.audioProgBar.value())
+        self.uiElements.currentTime.setText(self.second_to_time(self.audioCurrTime))
         # check if the audio is finished
-        if self.uiElements.audioProgBar.value() >= int(self.audioEndTime):
+        if self.audioCurrTime >= (self.audioEndTime - 0.01):
             self.status = PlayerStatus.STOP
             self.resetPlayer()
             self.uiElements.playerMessage.setText("Audio Ended")
@@ -108,6 +120,9 @@ class PlayerControllerHandler:
         # stop the audio
         self.uiElements.playerMessage.setText("Audio player stopped")
         self.resetPlayer()
+
+        # enable the graph event
+        self.audioVisualHandler.enableGraphEvent()
 
     def __pauseButtonClicked(self):
         if self.status == PlayerStatus.PAUSE or self.status == PlayerStatus.STOP:
@@ -120,15 +135,28 @@ class PlayerControllerHandler:
 
         # stop the timer
         self.timer.stop()
+
+        # enable the graph event
+        self.audioVisualHandler.enableGraphEvent()
     
     def __speedControlChanged(self, i):
         # get the selected speed
         # e.g: 1.0x, 1.5x, 2.0x, 0.5x, since all the speed is in the format of x,
         # we can remove the last character and convert it to float
-        self.speed = float(self.uiElements.speedControl.currentText()[:-1]) 
+        self.speed = float(self.uiElements.speedControl.currentText()[:-1])
+
+        # stop the current audio
+        playback.sd.stop()
+
+        # stop the timer
+        self.timer.stop()
 
         # set the message
         self.uiElements.playerMessage.setText("Speed changed to " + self.uiElements.speedControl.currentText())
+
+        # if the audio is playing, play the audio again
+        if self.status == PlayerStatus.PLAYING:
+            self.__audioPlay()
     
     # Assume when the user released the slider, stop the current audio first, play the audio from the new position
     def __sliderReleased(self):
@@ -142,9 +170,9 @@ class PlayerControllerHandler:
         if self.status == PlayerStatus.PLAYING:
             self.status = PlayerStatus.PAUSE
         
-        self.audioCurrTime = self.uiElements.audioProgBar.value()
-        self.uiElements.currentTime.setText(self.seconds_to_time(self.audioCurrTime))
-        self.uiElements.playerMessage.setText("Moved slider:" + self.seconds_to_time(self.audioCurrTime) + "s"  + "Current status: " + str(self.status))
+        self.audioCurrTime = self.sliderValueToSeconds(self.uiElements.audioProgBar.value())
+        self.uiElements.currentTime.setText(self.second_to_time(self.audioCurrTime))
+        self.uiElements.playerMessage.setText("Moved slider:" + str(self.audioCurrTime) + "s"  + "Current status: " + str(self.status))
         
         # resume the audio
         # if self.status == PlayerStatus.PAUSE:
@@ -154,23 +182,44 @@ class PlayerControllerHandler:
     def resetPlayer(self):
         self.audioCurrTime = 0
         self.uiElements.audioProgBar.setValue(0)
-        self.uiElements.currentTime.setText("00:00:00")
-        self.uiElements.endTime.setText(self.seconds_to_time(self.audioEndTime))
+        self.uiElements.currentTime.setText("00:00:00.00")
+        self.uiElements.endTime.setText(self.second_to_timeNoMs(self.audioEndTime))
         self.status = PlayerStatus.STOP
         playback.sd.stop()
         self.timer.stop()
 
-    # return a string of the time in hh:mm:ss format
-    def seconds_to_time(self, seconds) -> str :
-        duration = datetime.timedelta(seconds=seconds)
+    # return a string of the time in hh:mm:ss.ms format
+    def second_to_time(self, s) -> str :
+        duration = datetime.timedelta(seconds=s)
+
+        # calculate the time
+        hours = duration.seconds // 3600
+        minutes = (duration.seconds % 3600) // 60
+        seconds = duration.seconds % 60
+        microseconds = duration.microseconds // 10000
+
+        # return the time in hh:mm:ss:mm format
+        return f"{hours:02}:{minutes:02}:{seconds:02}.{microseconds:02}"
+    
+    # return a string of the time in hh:mm:ss.ms format
+    def second_to_timeNoMs(self, s) -> str :
+        duration = datetime.timedelta(seconds=s)
 
         # calculate the time
         hours = duration.seconds // 3600
         minutes = (duration.seconds % 3600) // 60
         seconds = duration.seconds % 60
 
-        # return the time in hh:mm:ss format
+        # return the time in hh:mm:ss:mm format
         return f"{hours:02}:{minutes:02}:{seconds:02}"
+
+    # convert the slider value to time
+    def sliderValueToTime(self, value) -> str:
+        return self.second_to_time(value/100.0)
+    
+    # convert the slider value to seconds in float
+    def sliderValueToSeconds(self, value) -> float:
+        return value/100.0
     
     # set pthe player information when user select a new file
     def setPlayerInfo(self):
@@ -183,14 +232,19 @@ class PlayerControllerHandler:
         # decode the audio file
         self.audio, self.samples, self.channel = playback.decode_wav(self.filePath)
 
+        # decode the file with raw byte and get the text
+        raw_data, _, _ = playback.decode2Raw(self.filePath)
+        # record.speech_to_text(raw_data, self.samples)
+
         # get the audio information
-        self.audioEndTime = len(self.audio)/(self.samples*self.channel*1.0)
+        self.audioEndTime = math.ceil(len(self.audio)/(self.samples*self.channel*1.0)) # in s
 
         # set the time information into the audio
-        self.uiElements.audioProgBar.setMaximum(int(self.audioEndTime))
+        # since the audioProgBar support to 0.01s, we need to multiply the audioEndTime by 100
+        self.uiElements.audioProgBar.setMaximum((self.audioEndTime)*100)
         self.uiElements.audioProgBar.setValue(0)
-        self.uiElements.currentTime.setText("00:00:00")
-        self.uiElements.endTime.setText(self.seconds_to_time(self.audioEndTime))
+        self.uiElements.currentTime.setText("00:00:00.00")
+        self.uiElements.endTime.setText(self.second_to_timeNoMs(self.audioEndTime))
 
         # print out the duration of the audio
         print("Duration of the audio: " + str(playback.getDuration(self.filePath)) + "s")

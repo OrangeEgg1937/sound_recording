@@ -42,18 +42,17 @@ class Audio():
         if type(frame_rate) is int:
             self._sample_rate = max(1, frame_rate)
 
-        self._stream = sd.RawInputStream(device=None, channels=self.num_channels, samplerate=self.sample_rate, callback=self._start_recording, dtype='int16')
-
     def __del__(self):
         if type(self._stream) is sd.Stream:
             self._stream.stop()
             self._stream.close()
 
-    def start_recording(self):
+    def start_recording(self, device):
         self._raw_data = []
+        self._stream = sd.RawInputStream(device=device['index'], channels=self.num_channels, samplerate=self.sample_rate, callback=self._start_recording, dtype='int16')
         self._stream.start()
         self._is_recording = True
-        # threading._start_new_thread(self._start_recording, ())
+       
 
     def _start_recording(self, indata, frames, time, status):
         if self._is_recording:
@@ -105,5 +104,11 @@ class Audio():
         with open(file_path, "wb") as file:
             file.write(self.generate_wav())
             file.close()
+
+def speech_to_text(raw_data, sample_rate):
+        import speech_recognition as sr
+        recognizer = sr.Recognizer()
+        audio_data = sr.AudioData(raw_data, sample_rate, 2)
+        return recognizer.recognize_google(audio_data)
 
     

@@ -1,5 +1,5 @@
-import wave
 import playback
+
 
 def timeToIndex(wf, target):
     _, sampleRate, _, _, _ = playback.getProperties(wf)
@@ -8,10 +8,28 @@ def timeToIndex(wf, target):
     index = -1
     if 0 <= target <= duration:
         index = int(target * sampleRate)
+    elif target < 0:
+        index = 0
+    elif target > duration:
+        index = int(duration * sampleRate)
     else:
         print("Error getting index")
 
     return index
+
+
+def changePitch(wf, semitones):
+    numChannels, sampleRate, bitsPerSample, subchunk2Size, _ = playback.getProperties(wf)
+    newRate = int(sampleRate * (2 ** (semitones / 12.0)))
+
+    data, _, _ = playback.decode2Raw(wf)
+
+    with open("pitchShift.wav", 'wb') as file:
+        bytes_rate = newRate * numChannels * bitsPerSample
+        block_align = numChannels * bitsPerSample / 8
+        output = write2Wave(data, numChannels, newRate, bytes_rate, block_align, bitsPerSample)
+        file.write(output)
+        file.close()
 
 
 def trim(wf, startTime, endTime):
@@ -64,7 +82,7 @@ def overwrite(wf1, wf2, startTime):
     startSlice = data1[0
                        : int(targetIndex * numChannels1 * bitsPerSample1)]
     owSlice = data2[0
-                           : int(endIndexClip * numChannels2 * bitsPerSample2)]
+                         : int(endIndexClip * numChannels2 * bitsPerSample2)]
     endSlice = data1[int(targetIndex * numChannels1 * bitsPerSample1)
                      : int(endIndexOrig * numChannels1 * bitsPerSample1)]
 
