@@ -36,7 +36,7 @@ class Audio():
 
     def __init__(self,
                  num_channel: int = 1,
-                 frame_rate: int = 4410):
+                 frame_rate: int = 44100):
         if type(num_channel) is int:
             self._num_channels = max(1, num_channel)
         if type(frame_rate) is int:
