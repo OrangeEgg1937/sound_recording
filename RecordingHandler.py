@@ -7,11 +7,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import QTimer
 from record import Audio
 from AudioPlayerSettingHandler import AudioPlayerSettingHandler
-
-CHANNELS = 2
-RATE = 44100
-CHUNK = 1024
-RECORD_SECONDS = 5
+from ImportHandler import ImportHandler
+import sounddevice as sd
 
 # Recording status
 class Recording(enum.Enum):
@@ -26,14 +23,16 @@ class RecordingHandler:
     currentRecordedTime = 0.0
     stream = None
     audio = None
+    isPaused = False
 
     # for debug only
     frames = []
 
-    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, audioPlayerSettingHandler:AudioPlayerSettingHandler):
+    def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, audioPlayerSettingHandler:AudioPlayerSettingHandler, importHandler:ImportHandler): 
         self.uiElements = uiElements
         self.mainWindow = mainWindow
         self.setting = audioPlayerSettingHandler
+        self.importHandler = importHandler
 
         # Add the listener for the record button
         self.uiElements.recordBtn.clicked.connect(self.__recordButtonClicked)
@@ -52,7 +51,6 @@ class RecordingHandler:
         self.uiElements.playerMessage.setText("Recording...")
         self.recording = True
 
-        # start recording
         self.audio = Audio()
         self.audio.start_recording(self.setting.getAudioInputDriver())
 
@@ -82,7 +80,9 @@ class RecordingHandler:
         formatted_datetime = currentTime.strftime("%d%m%y%H%M%S")
 
         # write the file
-        self.audio.write(f"recording_{formatted_datetime}.wav")
+        filePath = self.setting.getSavingPath()
+        fullFilePath = f"{filePath}/recording_{formatted_datetime}.wav"
+        self.audio.write(fullFilePath)
 
         # enable the record button
         self.uiElements.recordBtn.setEnabled(True)
@@ -99,13 +99,30 @@ class RecordingHandler:
 
         # update the time
         self.uiElements.recordTime.setText("00:00:00")
+
+        # add the file to the list
+        self.importHandler.importFile(fullFilePath)
     
     # listener for the pause record button
     def __pauseRecordButtonClicked(self):
-        self.uiElements.playerMessage.setText("Recording paused")
+        if self.isPaused:
+            self.isPaused = False
+            self.uiElements.playerMessage.setText("Resume Recording...")
 
-        # stop the timer
-        self.timer.stop()
+            # reusme the recording
+            self.audio.start_recording(self.setting.getAudioInputDriver())
+
+            # start the timer
+            self.timer.start(1000)
+        else:
+            self.uiElements.playerMessage.setText("Recording paused")
+            self.isPaused = True
+
+            # pause the recording
+            self.audio.pause_recording()
+
+            # stop the timer
+            self.timer.stop()
 
     
     # update the time

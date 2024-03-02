@@ -13,6 +13,7 @@ class Audio():
     _stream = None
     _raw_byte = b''
     _is_recording = False
+    _is_paused = False
 
     @property
     def num_channels(self):
@@ -47,18 +48,27 @@ class Audio():
             self._stream.stop()
             self._stream.close()
 
-    def start_recording(self, device):
-        self._raw_data = []
-        self._stream = sd.RawInputStream(device=device['index'], channels=self.num_channels, samplerate=self.sample_rate, callback=self._start_recording, dtype='int16')
-        self._stream.start()
-        self._is_recording = True
+    def start_recording(self, device:int = None):
+        # if the recording is started and paused, then continue recording
+        if self._is_recording and self._is_paused is True:
+            print("resumed recording")
+            self._is_paused = False
+        else:
+            self._raw_data = []
+            self._stream = sd.RawInputStream(device=device, channels=self.num_channels, samplerate=self.sample_rate, callback=self._start_recording, dtype='int16')
+            self._stream.start()
+            self._is_recording = True
        
 
     def _start_recording(self, indata, frames, time, status):
-        if self._is_recording:
+        if self._is_recording and self._is_paused is False:
             self._raw_byte += bytes(indata)
         else:
-            self._stream.stop()
+            pass
+
+    def pause_recording(self):
+        self._is_paused = True
+
 
     def stop_recording(self):
         self._is_recording = False

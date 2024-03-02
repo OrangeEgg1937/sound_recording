@@ -45,7 +45,7 @@ class AudioVisualHandler:
         canvas = FigureCanvas(figure)
         ax = figure.add_subplot()
         ax.plot(charData, '-')
-        figure.suptitle("Audio Visual")
+        figure.suptitle("Audio Visual will display here, you can select a file from the list first.")
         ax.axis('off')
         canvas.draw()
 
@@ -55,8 +55,8 @@ class AudioVisualHandler:
         # decode the wav file
         audio_data, sample_rate, amount_of_channels = playback.decode_wav(path)
 
-        # calculate the duration
-        duration = playback.getDuration(path)
+        # calculate the duration (correct to 2 decimal places)
+        duration = round(playback.getDuration(path), 2)
 
         # Reshape the audio data to match the number of channels
         # if the audio data is stereo, then the audio data will be reshaped to 2 columns
@@ -77,9 +77,9 @@ class AudioVisualHandler:
 
             # taking the average of the audio data for each channel (as we only want one channel for the graph)
             reshaped_audio_data = np.mean(reshaped_audio_data, axis=1)
-
+        
         # calculate the time axis for the graph
-        time = np.linspace(0, duration, len(audio_data) // amount_of_channels)
+        time = np.linspace(0, duration, len(reshaped_audio_data))
 
         # create matplotlib graph
         self.figure = Figure(facecolor="#F9F9F9")
@@ -152,7 +152,7 @@ class AudioVisualHandler:
         self.canvas.draw()
 
         # Show the time in the label
-        self.uiElements.hoverSecond.setText(str(datetime.timedelta(seconds=event.xdata)))
+        self.uiElements.hoverSecond.setText(self.second_to_time(event.xdata))
 
         # reconnect the hover event
         self.canvas.mpl_connect('motion_notify_event', self.__graphHovered)
@@ -182,11 +182,17 @@ class AudioVisualHandler:
 
     # disable the click and hover event
     def disableGraphEvent(self):
+        # check if the canvas is not none
+        if self.canvas == None:
+            return
         self.canvas.mpl_disconnect(self.canvas.mpl_connect('button_press_event', self.__graphClicked))
         self.canvas.mpl_disconnect(self.canvas.mpl_connect('motion_notify_event', self.__graphHovered))
     
     # enable the click and hover event
     def enableGraphEvent(self):
+        # check if the canvas is not none
+        if self.canvas == None:
+            return
         self.canvas.mpl_connect('button_press_event', self.__graphClicked)
         self.canvas.mpl_connect('motion_notify_event', self.__graphHovered)
 

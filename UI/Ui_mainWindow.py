@@ -14,8 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(1080, 760)
-        mainWindow.setMinimumSize(QtCore.QSize(800, 600))
+        mainWindow.resize(820, 790)
+        mainWindow.setMinimumSize(QtCore.QSize(820, 790))
         mainWindow.setAcceptDrops(False)
         mainWindow.setStyleSheet("background-color:rgb(32, 32, 32);\n"
 "color:white;")
@@ -30,16 +30,18 @@ class Ui_mainWindow(object):
         self.frame.setEnabled(True)
         self.frame.setMinimumSize(QtCore.QSize(800, 600))
         self.frame.setStyleSheet("color:black;\n"
-"background-color:rgb(249, 249, 249)")
+"background-color:rgb(250, 250, 250)")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout_2.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.frame_4 = QtWidgets.QFrame(self.frame)
-        self.frame_4.setMaximumSize(QtCore.QSize(300, 16777215))
+        self.frame_4.setMinimumSize(QtCore.QSize(100, 100))
+        self.frame_4.setMaximumSize(QtCore.QSize(300, 99999))
         self.frame_4.setStyleSheet("background-color:rgb(32, 32, 32);\n"
 "color:white;\n"
 "border: thick white;")
@@ -53,11 +55,10 @@ class Ui_mainWindow(object):
         self.AudioFileLayout_2.setSpacing(0)
         self.AudioFileLayout_2.setObjectName("AudioFileLayout_2")
         self.importFileBtn = QtWidgets.QPushButton(self.frame_4)
-        self.importFileBtn.setMinimumSize(QtCore.QSize(200, 30))
-        self.importFileBtn.setMaximumSize(QtCore.QSize(200, 30))
+        self.importFileBtn.setMinimumSize(QtCore.QSize(100, 30))
+        self.importFileBtn.setMaximumSize(QtCore.QSize(9999, 30))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.importFileBtn.setFont(font)
@@ -83,29 +84,14 @@ class Ui_mainWindow(object):
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.currentFileTitle = QtWidgets.QLabel(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.currentFileTitle.sizePolicy().hasHeightForWidth())
-        self.currentFileTitle.setSizePolicy(sizePolicy)
-        self.currentFileTitle.setMinimumSize(QtCore.QSize(100, 20))
-        self.currentFileTitle.setMaximumSize(QtCore.QSize(100, 20))
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setBold(True)
-        font.setWeight(75)
-        self.currentFileTitle.setFont(font)
-        self.currentFileTitle.setObjectName("currentFileTitle")
-        self.horizontalLayout_4.addWidget(self.currentFileTitle, 0, QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.selectedFileName = QtWidgets.QLabel(self.frame_4)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.selectedFileName.sizePolicy().hasHeightForWidth())
         self.selectedFileName.setSizePolicy(sizePolicy)
-        self.selectedFileName.setMinimumSize(QtCore.QSize(180, 20))
-        self.selectedFileName.setMaximumSize(QtCore.QSize(180, 20))
+        self.selectedFileName.setMinimumSize(QtCore.QSize(50, 20))
+        self.selectedFileName.setMaximumSize(QtCore.QSize(9999, 20))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setBold(True)
@@ -123,13 +109,13 @@ class Ui_mainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.removeSelectedBtn.sizePolicy().hasHeightForWidth())
         self.removeSelectedBtn.setSizePolicy(sizePolicy)
-        self.removeSelectedBtn.setMinimumSize(QtCore.QSize(20, 20))
-        self.removeSelectedBtn.setMaximumSize(QtCore.QSize(999, 20))
+        self.removeSelectedBtn.setMinimumSize(QtCore.QSize(100, 20))
+        self.removeSelectedBtn.setMaximumSize(QtCore.QSize(9999, 20))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(12)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
         self.removeSelectedBtn.setFont(font)
         self.removeSelectedBtn.setStyleSheet("QPushButton{\n"
 "border-radius: 40px;\n"
@@ -155,7 +141,7 @@ class Ui_mainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.audioFileList.sizePolicy().hasHeightForWidth())
         self.audioFileList.setSizePolicy(sizePolicy)
-        self.audioFileList.setMinimumSize(QtCore.QSize(200, 800))
+        self.audioFileList.setMinimumSize(QtCore.QSize(100, 600))
         self.audioFileList.setMaximumSize(QtCore.QSize(300, 800))
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -198,8 +184,15 @@ class Ui_mainWindow(object):
         self.verticalLayout_8.addItem(spacerItem1)
         self.horizontalLayout_2.addWidget(self.frame_4)
         self.tap = QtWidgets.QTabWidget(self.frame)
-        self.tap.setMinimumSize(QtCore.QSize(800, 600))
-        self.tap.setStyleSheet(" QTabWidget::pane { /* The tab widget frame */\n"
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.tap.sizePolicy().hasHeightForWidth())
+        self.tap.setSizePolicy(sizePolicy)
+        self.tap.setMinimumSize(QtCore.QSize(300, 200))
+        self.tap.setMaximumSize(QtCore.QSize(16777215, 9999))
+        self.tap.setStyleSheet("/* below style sheet is from default Qt Design*/\n"
+"QTabWidget::pane { /* The tab widget frame */\n"
 "     border-top: 2px solid #C2C7CB;\n"
 " }\n"
 "\n"
@@ -248,6 +241,11 @@ class Ui_mainWindow(object):
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.mainPage)
         self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.frame_5 = QtWidgets.QFrame(self.mainPage)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
+        self.frame_5.setSizePolicy(sizePolicy)
         self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_5.setObjectName("frame_5")
@@ -260,7 +258,7 @@ class Ui_mainWindow(object):
         self.AudioTitle.setMaximumSize(QtCore.QSize(16777215, 40))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(24)
+        font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
         self.AudioTitle.setFont(font)
@@ -274,46 +272,41 @@ class Ui_mainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem2)
         self.label_4 = QtWidgets.QLabel(self.frame_5)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
         self.label_4.setSizePolicy(sizePolicy)
-        self.label_4.setMinimumSize(QtCore.QSize(0, 0))
-        self.label_4.setMaximumSize(QtCore.QSize(250, 250))
-        self.label_4.setSizeIncrement(QtCore.QSize(10, 10))
-        self.label_4.setBaseSize(QtCore.QSize(300, 300))
+        self.label_4.setMinimumSize(QtCore.QSize(100, 100))
+        self.label_4.setMaximumSize(QtCore.QSize(100, 100))
+        self.label_4.setSizeIncrement(QtCore.QSize(0, 0))
+        self.label_4.setBaseSize(QtCore.QSize(0, 0))
         self.label_4.setText("")
         self.label_4.setPixmap(QtGui.QPixmap(":/music_cover.jpeg"))
         self.label_4.setScaledContents(True)
+        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_3.addWidget(self.label_4)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem3)
         self.verticalLayout_10.addLayout(self.horizontalLayout_3)
-        self.label_6 = QtWidgets.QLabel(self.frame_5)
-        self.label_6.setMinimumSize(QtCore.QSize(100, 16))
-        self.label_6.setMaximumSize(QtCore.QSize(100, 16))
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_6.setFont(font)
-        self.label_6.setObjectName("label_6")
-        self.verticalLayout_10.addWidget(self.label_6)
         self.speech2text = QtWidgets.QLabel(self.frame_5)
         self.speech2text.setMinimumSize(QtCore.QSize(0, 30))
         self.speech2text.setMaximumSize(QtCore.QSize(1000, 27))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         self.speech2text.setFont(font)
-        self.speech2text.setText("")
         self.speech2text.setObjectName("speech2text")
         self.verticalLayout_10.addWidget(self.speech2text)
         self.mainAudioVisual = QtWidgets.QWidget(self.frame_5)
-        self.mainAudioVisual.setMinimumSize(QtCore.QSize(0, 0))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mainAudioVisual.sizePolicy().hasHeightForWidth())
+        self.mainAudioVisual.setSizePolicy(sizePolicy)
+        self.mainAudioVisual.setMinimumSize(QtCore.QSize(600, 140))
         self.mainAudioVisual.setMaximumSize(QtCore.QSize(9999, 9999))
+        self.mainAudioVisual.setSizeIncrement(QtCore.QSize(0, 100))
         self.mainAudioVisual.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.mainAudioVisual.setObjectName("mainAudioVisual")
         self.verticalLayout_10.addWidget(self.mainAudioVisual)
@@ -323,9 +316,9 @@ class Ui_mainWindow(object):
         self.hoverSecond.setSizeIncrement(QtCore.QSize(0, 0))
         self.hoverSecond.setObjectName("hoverSecond")
         self.verticalLayout_10.addWidget(self.hoverSecond)
-        self.verticalLayout_9.addWidget(self.frame_5)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_9.addItem(spacerItem4)
+        self.verticalLayout_10.addItem(spacerItem4)
+        self.verticalLayout_9.addWidget(self.frame_5)
         self.tap.addTab(self.mainPage, "")
         self.Recording = QtWidgets.QWidget()
         self.Recording.setObjectName("Recording")
@@ -336,17 +329,6 @@ class Ui_mainWindow(object):
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setContentsMargins(11, 11, 11, 11)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.recordWaveDisplay = QtWidgets.QWidget(self.Recording)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.recordWaveDisplay.sizePolicy().hasHeightForWidth())
-        self.recordWaveDisplay.setSizePolicy(sizePolicy)
-        self.recordWaveDisplay.setMinimumSize(QtCore.QSize(500, 300))
-        self.recordWaveDisplay.setMaximumSize(QtCore.QSize(500, 300))
-        self.recordWaveDisplay.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.recordWaveDisplay.setObjectName("recordWaveDisplay")
-        self.verticalLayout_5.addWidget(self.recordWaveDisplay)
         self.recordTimeTitle = QtWidgets.QLabel(self.Recording)
         self.recordTimeTitle.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
@@ -459,6 +441,21 @@ class Ui_mainWindow(object):
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem5)
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
+        self.label_15 = QtWidgets.QLabel(self.Recording)
+        self.label_15.setObjectName("label_15")
+        self.verticalLayout_5.addWidget(self.label_15)
+        self.recordMessage = QtWidgets.QLabel(self.Recording)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setBold(True)
+        font.setItalic(True)
+        font.setWeight(75)
+        self.recordMessage.setFont(font)
+        self.recordMessage.setText("")
+        self.recordMessage.setObjectName("recordMessage")
+        self.verticalLayout_5.addWidget(self.recordMessage)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem6)
         self.verticalLayout_4.addLayout(self.verticalLayout_5)
         self.tap.addTab(self.Recording, "")
         self.Editing = QtWidgets.QWidget()
@@ -483,16 +480,8 @@ class Ui_mainWindow(object):
         self.gridLayout.setContentsMargins(11, 11, 11, 11)
         self.gridLayout.setSpacing(7)
         self.gridLayout.setObjectName("gridLayout")
-        self.label_8 = QtWidgets.QLabel(self.Editing)
-        self.label_8.setMinimumSize(QtCore.QSize(140, 20))
-        self.label_8.setMaximumSize(QtCore.QSize(140, 20))
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(12)
-        self.label_8.setFont(font)
-        self.label_8.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.label_8.setObjectName("label_8")
-        self.gridLayout.addWidget(self.label_8, 1, 0, 1, 1)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem7, 0, 2, 1, 1)
         self.label_9 = QtWidgets.QLabel(self.Editing)
         self.label_9.setMinimumSize(QtCore.QSize(140, 20))
         self.label_9.setMaximumSize(QtCore.QSize(140, 20))
@@ -502,18 +491,12 @@ class Ui_mainWindow(object):
         self.label_9.setFont(font)
         self.label_9.setObjectName("label_9")
         self.gridLayout.addWidget(self.label_9, 0, 0, 1, 1)
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem6, 0, 2, 1, 1)
-        self.label_10 = QtWidgets.QLabel(self.Editing)
-        self.label_10.setMinimumSize(QtCore.QSize(140, 20))
-        self.label_10.setMaximumSize(QtCore.QSize(140, 20))
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(12)
-        self.label_10.setFont(font)
-        self.label_10.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
-        self.label_10.setObjectName("label_10")
-        self.gridLayout.addWidget(self.label_10, 2, 0, 1, 1)
+        self.editFileName = QtWidgets.QLineEdit(self.Editing)
+        self.editFileName.setEnabled(False)
+        self.editFileName.setMinimumSize(QtCore.QSize(200, 20))
+        self.editFileName.setMaximumSize(QtCore.QSize(200, 20))
+        self.editFileName.setObjectName("editFileName")
+        self.gridLayout.addWidget(self.editFileName, 0, 1, 1, 1)
         self.label_11 = QtWidgets.QLabel(self.Editing)
         self.label_11.setMinimumSize(QtCore.QSize(140, 20))
         self.label_11.setMaximumSize(QtCore.QSize(140, 20))
@@ -523,31 +506,13 @@ class Ui_mainWindow(object):
         self.label_11.setFont(font)
         self.label_11.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_11.setObjectName("label_11")
-        self.gridLayout.addWidget(self.label_11, 3, 0, 1, 1)
-        self.editFileName = QtWidgets.QLineEdit(self.Editing)
-        self.editFileName.setEnabled(False)
-        self.editFileName.setMinimumSize(QtCore.QSize(200, 20))
-        self.editFileName.setMaximumSize(QtCore.QSize(200, 20))
-        self.editFileName.setObjectName("editFileName")
-        self.gridLayout.addWidget(self.editFileName, 0, 1, 1, 1)
-        self.editSampleRate = QtWidgets.QLineEdit(self.Editing)
-        self.editSampleRate.setEnabled(False)
-        self.editSampleRate.setMinimumSize(QtCore.QSize(200, 20))
-        self.editSampleRate.setMaximumSize(QtCore.QSize(200, 20))
-        self.editSampleRate.setObjectName("editSampleRate")
-        self.gridLayout.addWidget(self.editSampleRate, 1, 1, 1, 1)
-        self.editSampleWidth = QtWidgets.QLineEdit(self.Editing)
-        self.editSampleWidth.setEnabled(False)
-        self.editSampleWidth.setMinimumSize(QtCore.QSize(200, 20))
-        self.editSampleWidth.setMaximumSize(QtCore.QSize(200, 20))
-        self.editSampleWidth.setObjectName("editSampleWidth")
-        self.gridLayout.addWidget(self.editSampleWidth, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_11, 1, 0, 1, 1)
         self.editDuration = QtWidgets.QLineEdit(self.Editing)
         self.editDuration.setEnabled(False)
         self.editDuration.setMinimumSize(QtCore.QSize(200, 20))
         self.editDuration.setMaximumSize(QtCore.QSize(200, 20))
         self.editDuration.setObjectName("editDuration")
-        self.gridLayout.addWidget(self.editDuration, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.editDuration, 1, 1, 1, 1)
         self.verticalLayout_6.addLayout(self.gridLayout)
         self.editingTitle = QtWidgets.QLabel(self.Editing)
         self.editingTitle.setMinimumSize(QtCore.QSize(100, 20))
@@ -580,8 +545,8 @@ class Ui_mainWindow(object):
 "border: 1px solid black;")
         self.editStartingTime.setObjectName("editStartingTime")
         self.horizontalLayout_6.addWidget(self.editStartingTime)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem7)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem8)
         self.verticalLayout_6.addLayout(self.horizontalLayout_6)
         self.editStartingTimeSlider = QtWidgets.QSlider(self.Editing)
         self.editStartingTimeSlider.setMinimumSize(QtCore.QSize(600, 20))
@@ -599,7 +564,16 @@ class Ui_mainWindow(object):
 "    width: 10px;\n"
 "    margin: -5px 0;\n"
 "    border-radius: 9px;\n"
-"}")
+"}\n"
+"\n"
+"\n"
+" QSlider::add-page:horizontal {\n"
+"     background: rgba(255, 255, 255, 10);\n"
+" }\n"
+"\n"
+" QSlider::sub-page:horizontal {\n"
+"     background: rgab(0, 0, 0, 200);\n"
+" }")
         self.editStartingTimeSlider.setMaximum(999)
         self.editStartingTimeSlider.setPageStep(0)
         self.editStartingTimeSlider.setOrientation(QtCore.Qt.Horizontal)
@@ -625,8 +599,8 @@ class Ui_mainWindow(object):
 "border: 1px solid black;")
         self.editEndingTime.setObjectName("editEndingTime")
         self.horizontalLayout_7.addWidget(self.editEndingTime)
-        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem8)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem9)
         self.verticalLayout_6.addLayout(self.horizontalLayout_7)
         self.editEndingTimeSlider = QtWidgets.QSlider(self.Editing)
         self.editEndingTimeSlider.setMinimumSize(QtCore.QSize(600, 20))
@@ -644,7 +618,16 @@ class Ui_mainWindow(object):
 "    width: 10px;\n"
 "    margin: -5px 0;\n"
 "    border-radius: 9px;\n"
-"}")
+"}\n"
+"\n"
+"\n"
+" QSlider::add-page:horizontal {\n"
+"     background: rgba(255, 255, 255, 10);\n"
+" }\n"
+"\n"
+" QSlider::sub-page:horizontal {\n"
+"     background: rgab(0, 0, 0, 200);\n"
+" }")
         self.editEndingTimeSlider.setMaximum(999)
         self.editEndingTimeSlider.setPageStep(0)
         self.editEndingTimeSlider.setOrientation(QtCore.Qt.Horizontal)
@@ -676,20 +659,53 @@ class Ui_mainWindow(object):
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.cutAndSaveBtn = QtWidgets.QPushButton(self.Editing)
+        self.cutAndSaveBtn.setMinimumSize(QtCore.QSize(40, 30))
+        self.cutAndSaveBtn.setStyleSheet("QPushButton{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\n"
+"                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);\n"
+"     border: 2px solid #C4C4C3;\n"
+"     border-radius: 4px;\n"
+"     min-width: 8ex;\n"
+"     padding: 2px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"")
         self.cutAndSaveBtn.setObjectName("cutAndSaveBtn")
         self.horizontalLayout_8.addWidget(self.cutAndSaveBtn)
-        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem9)
+        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem10)
         self.verticalLayout_6.addLayout(self.horizontalLayout_8)
         self.label_7 = QtWidgets.QLabel(self.Editing)
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
-        font.setPointSize(12)
+        font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.label_7.setFont(font)
         self.label_7.setObjectName("label_7")
         self.verticalLayout_6.addWidget(self.label_7)
+        self.label_8 = QtWidgets.QLabel(self.Editing)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_8.setFont(font)
+        self.label_8.setObjectName("label_8")
+        self.verticalLayout_6.addWidget(self.label_8)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
         self.editRecordBtn = QtWidgets.QPushButton(self.Editing)
@@ -782,29 +798,89 @@ class Ui_mainWindow(object):
         self.editRecordTime.setFont(font)
         self.editRecordTime.setObjectName("editRecordTime")
         self.horizontalLayout_10.addWidget(self.editRecordTime)
-        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_10.addItem(spacerItem10)
+        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_10.addItem(spacerItem11)
         self.verticalLayout_6.addLayout(self.horizontalLayout_10)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.overwriteBtn = QtWidgets.QPushButton(self.Editing)
         self.overwriteBtn.setEnabled(False)
-        self.overwriteBtn.setMinimumSize(QtCore.QSize(100, 30))
+        self.overwriteBtn.setMinimumSize(QtCore.QSize(40, 30))
         self.overwriteBtn.setStyleSheet("QPushButton:disabled,\n"
 "button[disabled]{\n"
 "  border: 1px solid #999999;\n"
 "  background-color: #cccccc;\n"
 "  color: #666666;\n"
-"}")
+"}\n"
+"\n"
+"QPushButton{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\n"
+"                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);\n"
+"     border: 2px solid #C4C4C3;\n"
+"     border-radius: 4px;\n"
+"     min-width: 8ex;\n"
+"     padding: 2px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"\n"
+"")
         self.overwriteBtn.setObjectName("overwriteBtn")
         self.horizontalLayout_9.addWidget(self.overwriteBtn)
+        self.label_6 = QtWidgets.QLabel(self.Editing)
+        self.label_6.setText("")
+        self.label_6.setObjectName("label_6")
+        self.horizontalLayout_9.addWidget(self.label_6)
+        self.importCoverFIle = QtWidgets.QPushButton(self.Editing)
+        self.importCoverFIle.setMinimumSize(QtCore.QSize(40, 30))
+        self.importCoverFIle.setStyleSheet("QPushButton{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\n"
+"                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);\n"
+"     border: 2px solid #C4C4C3;\n"
+"     border-radius: 4px;\n"
+"     min-width: 8ex;\n"
+"     padding: 2px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"")
+        self.importCoverFIle.setObjectName("importCoverFIle")
+        self.horizontalLayout_9.addWidget(self.importCoverFIle)
+        self.label_12 = QtWidgets.QLabel(self.Editing)
+        self.label_12.setText("")
+        self.label_12.setObjectName("label_12")
+        self.horizontalLayout_9.addWidget(self.label_12)
         self.owTips = QtWidgets.QLabel(self.Editing)
         self.owTips.setMinimumSize(QtCore.QSize(200, 0))
         self.owTips.setMaximumSize(QtCore.QSize(200, 16777215))
         self.owTips.setObjectName("owTips")
         self.horizontalLayout_9.addWidget(self.owTips)
-        spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_9.addItem(spacerItem11)
+        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem12)
         self.verticalLayout_6.addLayout(self.horizontalLayout_9)
         self.tap.addTab(self.Editing, "")
         self.enhancement = QtWidgets.QWidget()
@@ -830,16 +906,40 @@ class Ui_mainWindow(object):
         self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_13.setObjectName("horizontalLayout_13")
         self.pitchValue = QtWidgets.QLineEdit(self.enhancement)
-        self.pitchValue.setMinimumSize(QtCore.QSize(100, 20))
-        self.pitchValue.setMaximumSize(QtCore.QSize(100, 20))
+        self.pitchValue.setMinimumSize(QtCore.QSize(150, 30))
+        self.pitchValue.setMaximumSize(QtCore.QSize(150, 30))
         self.pitchValue.setObjectName("pitchValue")
         self.horizontalLayout_13.addWidget(self.pitchValue)
         self.pitchChange = QtWidgets.QPushButton(self.enhancement)
-        self.pitchChange.setMaximumSize(QtCore.QSize(100, 20))
+        self.pitchChange.setMinimumSize(QtCore.QSize(40, 30))
+        self.pitchChange.setMaximumSize(QtCore.QSize(100, 30))
+        self.pitchChange.setStyleSheet("QPushButton{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\n"
+"                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);\n"
+"     border: 2px solid #C4C4C3;\n"
+"     border-radius: 4px;\n"
+"     min-width: 8ex;\n"
+"     padding: 2px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"")
         self.pitchChange.setObjectName("pitchChange")
         self.horizontalLayout_13.addWidget(self.pitchChange)
-        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_13.addItem(spacerItem12)
+        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_13.addItem(spacerItem13)
         self.verticalLayout_11.addLayout(self.horizontalLayout_13)
         self.label_3 = QtWidgets.QLabel(self.enhancement)
         font = QtGui.QFont()
@@ -853,13 +953,37 @@ class Ui_mainWindow(object):
         self.horizontalLayout_14 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_14.setObjectName("horizontalLayout_14")
         self.noiseRemoveBtn = QtWidgets.QPushButton(self.enhancement)
+        self.noiseRemoveBtn.setMinimumSize(QtCore.QSize(40, 30))
+        self.noiseRemoveBtn.setStyleSheet("QPushButton{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\n"
+"                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);\n"
+"     border: 2px solid #C4C4C3;\n"
+"     border-radius: 4px;\n"
+"     min-width: 8ex;\n"
+"     padding: 2px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"")
         self.noiseRemoveBtn.setObjectName("noiseRemoveBtn")
         self.horizontalLayout_14.addWidget(self.noiseRemoveBtn)
-        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_14.addItem(spacerItem13)
+        spacerItem14 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_14.addItem(spacerItem14)
         self.verticalLayout_11.addLayout(self.horizontalLayout_14)
-        spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_11.addItem(spacerItem14)
+        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_11.addItem(spacerItem15)
         self.tap.addTab(self.enhancement, "")
         self.Setting = QtWidgets.QWidget()
         self.Setting.setMinimumSize(QtCore.QSize(791, 557))
@@ -907,16 +1031,39 @@ class Ui_mainWindow(object):
         self.SavingPath = QtWidgets.QLineEdit(self.frame_2)
         self.SavingPath.setEnabled(False)
         self.SavingPath.setMinimumSize(QtCore.QSize(300, 10))
-        self.SavingPath.setMaximumSize(QtCore.QSize(99999, 300))
+        self.SavingPath.setMaximumSize(QtCore.QSize(600, 300))
         self.SavingPath.setObjectName("SavingPath")
         self.verticalLayout_3.addWidget(self.SavingPath)
         self.SavingPathEdit = QtWidgets.QPushButton(self.frame_2)
-        self.SavingPathEdit.setMinimumSize(QtCore.QSize(300, 30))
+        self.SavingPathEdit.setMinimumSize(QtCore.QSize(40, 30))
         self.SavingPathEdit.setMaximumSize(QtCore.QSize(300, 30))
+        self.SavingPathEdit.setStyleSheet("QPushButton{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\n"
+"                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);\n"
+"     border: 2px solid #C4C4C3;\n"
+"     border-radius: 4px;\n"
+"     min-width: 8ex;\n"
+"     padding: 2px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,\n"
+"                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);\n"
+"}\n"
+"\n"
+"")
         self.SavingPathEdit.setObjectName("SavingPathEdit")
         self.verticalLayout_3.addWidget(self.SavingPathEdit)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem15)
+        spacerItem16 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem16)
         self.verticalLayout_2.addWidget(self.frame_2)
         self.tap.addTab(self.Setting, "")
         self.horizontalLayout_2.addWidget(self.tap)
@@ -951,8 +1098,8 @@ class Ui_mainWindow(object):
         self.currentTime.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.currentTime.setObjectName("currentTime")
         self.horizontalLayout_11.addWidget(self.currentTime)
-        spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_11.addItem(spacerItem16)
+        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_11.addItem(spacerItem17)
         self.endTime = QtWidgets.QLabel(self.frame_3)
         self.endTime.setMinimumSize(QtCore.QSize(100, 20))
         self.endTime.setMaximumSize(QtCore.QSize(100, 20))
@@ -1007,8 +1154,8 @@ class Ui_mainWindow(object):
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_12.setSpacing(2)
         self.horizontalLayout_12.setObjectName("horizontalLayout_12")
-        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem17)
+        spacerItem18 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem18)
         self.pauseBtn = QtWidgets.QPushButton(self.frame_3)
         self.pauseBtn.setMinimumSize(QtCore.QSize(50, 50))
         self.pauseBtn.setMaximumSize(QtCore.QSize(50, 50))
@@ -1085,8 +1232,8 @@ class Ui_mainWindow(object):
         self.stopBtn.setIconSize(QtCore.QSize(30, 30))
         self.stopBtn.setObjectName("stopBtn")
         self.horizontalLayout_12.addWidget(self.stopBtn)
-        spacerItem18 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem18)
+        spacerItem19 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem19)
         self.label_5 = QtWidgets.QLabel(self.frame_3)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -1135,7 +1282,7 @@ class Ui_mainWindow(object):
         self.verticalLayout.addWidget(self.frame_3)
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1080, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 820, 26))
         self.menubar.setObjectName("menubar")
         mainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(mainWindow)
@@ -1151,30 +1298,30 @@ class Ui_mainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "G12 Sound Recorder"))
         self.importFileBtn.setText(_translate("mainWindow", " +  Import file"))
-        self.currentFileTitle.setText(_translate("mainWindow", "Selected File:"))
         self.selectedFileName.setText(_translate("mainWindow", "(none)"))
         self.removeSelectedBtn.setText(_translate("mainWindow", "Remove selected file"))
         self.audioFileList.setSortingEnabled(False)
         self.AudioTitle.setText(_translate("mainWindow", "Please select a audio file."))
-        self.label_6.setText(_translate("mainWindow", "AudioText:"))
+        self.speech2text.setText(_translate("mainWindow", "(Audio text will show in here if it is supported)"))
         self.hoverSecond.setText(_translate("mainWindow", "00:00:00.00"))
         self.tap.setTabText(self.tap.indexOf(self.mainPage), _translate("mainWindow", "Welcome"))
         self.recordTimeTitle.setText(_translate("mainWindow", "Time:"))
         self.recordTime.setText(_translate("mainWindow", "00:00:00.00"))
+        self.label_15.setText(_translate("mainWindow", "For resuming, click one more time \"pause\" to resume."))
         self.tap.setTabText(self.tap.indexOf(self.Recording), _translate("mainWindow", "Recording"))
         self.audioInfoTitle.setText(_translate("mainWindow", "Audio information:"))
-        self.label_8.setText(_translate("mainWindow", "Sample Rate:"))
         self.label_9.setText(_translate("mainWindow", "File name:"))
-        self.label_10.setText(_translate("mainWindow", "Sample Width:"))
         self.label_11.setText(_translate("mainWindow", "Duration:"))
         self.editingTitle.setText(_translate("mainWindow", "Editing:"))
         self.label_13.setText(_translate("mainWindow", "Starting Time:"))
         self.label_14.setText(_translate("mainWindow", "Ending Time:"))
         self.editingTitle_2.setText(_translate("mainWindow", "Message:"))
         self.cutAndSaveBtn.setText(_translate("mainWindow", "Cut and save"))
-        self.label_7.setText(_translate("mainWindow", "For Overwriting: Please record a new audio first"))
+        self.label_7.setText(_translate("mainWindow", "For Overwriting: Please record a new audio or import another audio first"))
+        self.label_8.setText(_translate("mainWindow", "It will overwriting from starting time"))
         self.editRecordTime.setText(_translate("mainWindow", "00:00:00.00"))
         self.overwriteBtn.setText(_translate("mainWindow", "Overwriting"))
+        self.importCoverFIle.setText(_translate("mainWindow", "Import"))
         self.owTips.setText(_translate("mainWindow", "[No audio rcord now]"))
         self.tap.setTabText(self.tap.indexOf(self.Editing), _translate("mainWindow", "Editing"))
         self.enc_message.setText(_translate("mainWindow", "Message:"))

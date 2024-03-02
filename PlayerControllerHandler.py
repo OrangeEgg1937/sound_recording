@@ -234,7 +234,12 @@ class PlayerControllerHandler:
 
         # decode the file with raw byte and get the text
         raw_data, _, _ = playback.decode2Raw(self.filePath)
-        # record.speech_to_text(raw_data, self.samples)
+        
+        # set the speech to text
+        try:
+            self.uiElements.speech2text.setText(record.speech_to_text(raw_data, self.samples))
+        except:
+            self.uiElements.speech2text.setText("The audio is not supported for speech to text conversion. Please try another audio file.") 
 
         # get the audio information
         self.audioEndTime = math.ceil(len(self.audio)/(self.samples*self.channel*1.0)) # in s

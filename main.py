@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtCore import Qt
 
 # imort the UI file
 from UI.Ui_mainWindow import Ui_mainWindow
@@ -13,10 +14,12 @@ from enhancementHandler import EnhancementHandler
 
 # main program
 if __name__ == "__main__":
+      
       # initialize all the necessary objects
       app = QApplication(sys.argv) # create the application
       mainWindow = QMainWindow() # create the main window
       ui = Ui_mainWindow() # create the UI object
+      
 
       # define the ui
       ui.setupUi(mainWindow) # setup the UI
@@ -34,7 +37,7 @@ if __name__ == "__main__":
       playerControllerHandler = PlayerControllerHandler(ui, mainWindow, importHandler, mainAudioVisualHandler)
 
       # define the recording handler
-      recordingHandler = RecordingHandler(ui, mainWindow, audioPlayerSettingHandler)
+      recordingHandler = RecordingHandler(ui, mainWindow, audioPlayerSettingHandler, importHandler)
 
       # define the audio editing handler
       audioEditingHandler = AudioEditingHandler(ui, mainWindow, importHandler)

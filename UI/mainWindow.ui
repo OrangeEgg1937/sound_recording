@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
-    <height>760</height>
+    <width>820</width>
+    <height>790</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>820</width>
+    <height>790</height>
    </size>
   </property>
   <property name="acceptDrops">
@@ -59,7 +59,7 @@ color:white;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">color:black;
-background-color:rgb(249, 249, 249)</string>
+background-color:rgb(250, 250, 250)</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -70,6 +70,9 @@ background-color:rgb(249, 249, 249)</string>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <property name="spacing">
         <number>0</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <property name="leftMargin">
         <number>0</number>
@@ -85,10 +88,16 @@ background-color:rgb(249, 249, 249)</string>
        </property>
        <item>
         <widget class="QFrame" name="frame_4">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>300</width>
-           <height>16777215</height>
+           <height>99999</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -115,20 +124,19 @@ border: thick white;</string>
              <widget class="QPushButton" name="importFileBtn">
               <property name="minimumSize">
                <size>
-                <width>200</width>
+                <width>100</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>200</width>
+                <width>9999</width>
                 <height>30</height>
                </size>
               </property>
               <property name="font">
                <font>
                 <family>Times New Roman</family>
-                <pointsize>12</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -167,38 +175,6 @@ background-color: rgb(255, 255, 255)
               <property name="spacing">
                <number>0</number>
               </property>
-              <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
-               <widget class="QLabel" name="currentFileTitle">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Selected File:</string>
-                </property>
-               </widget>
-              </item>
               <item>
                <widget class="QLabel" name="selectedFileName">
                 <property name="sizePolicy">
@@ -209,13 +185,13 @@ background-color: rgb(255, 255, 255)
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>180</width>
+                  <width>50</width>
                   <height>20</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>180</width>
+                  <width>9999</width>
                   <height>20</height>
                  </size>
                 </property>
@@ -259,22 +235,22 @@ background-color: rgb(255, 255, 255)
               </property>
               <property name="minimumSize">
                <size>
-                <width>20</width>
+                <width>100</width>
                 <height>20</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>999</width>
+                <width>9999</width>
                 <height>20</height>
                </size>
               </property>
               <property name="font">
                <font>
                 <family>Times New Roman</family>
-                <pointsize>12</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
+                <pointsize>9</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
                </font>
               </property>
               <property name="styleSheet">
@@ -310,8 +286,8 @@ background-color: rgb(255, 255, 255)
               </property>
               <property name="minimumSize">
                <size>
-                <width>200</width>
-                <height>800</height>
+                <width>100</width>
+                <height>600</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -404,14 +380,27 @@ background-color: rgb(255, 255, 255)
        </item>
        <item>
         <widget class="QTabWidget" name="tap">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>800</width>
-           <height>600</height>
+           <width>300</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>9999</height>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true"> QTabWidget::pane { /* The tab widget frame */
+          <string notr="true">/* below style sheet is from default Qt Design*/
+QTabWidget::pane { /* The tab widget frame */
      border-top: 2px solid #C2C7CB;
  }
 
@@ -482,6 +471,12 @@ background-color: rgb(255, 255, 255)
           <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
             <widget class="QFrame" name="frame_5">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -508,7 +503,7 @@ background-color: rgb(255, 255, 255)
                   <property name="font">
                    <font>
                     <family>Times New Roman</family>
-                    <pointsize>24</pointsize>
+                    <pointsize>18</pointsize>
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
@@ -544,33 +539,33 @@ background-color: rgb(255, 255, 255)
                 <item>
                  <widget class="QLabel" name="label_4">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>0</width>
-                    <height>0</height>
+                    <width>100</width>
+                    <height>100</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>250</width>
-                    <height>250</height>
+                    <width>100</width>
+                    <height>100</height>
                    </size>
                   </property>
                   <property name="sizeIncrement">
                    <size>
-                    <width>10</width>
-                    <height>10</height>
+                    <width>0</width>
+                    <height>0</height>
                    </size>
                   </property>
                   <property name="baseSize">
                    <size>
-                    <width>300</width>
-                    <height>300</height>
+                    <width>0</width>
+                    <height>0</height>
                    </size>
                   </property>
                   <property name="text">
@@ -581,6 +576,9 @@ background-color: rgb(255, 255, 255)
                   </property>
                   <property name="scaledContents">
                    <bool>true</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -598,33 +596,6 @@ background-color: rgb(255, 255, 255)
                  </spacer>
                 </item>
                </layout>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_6">
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Times New Roman</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>AudioText:</string>
-                </property>
-               </widget>
               </item>
               <item>
                <widget class="QLabel" name="speech2text">
@@ -646,22 +617,34 @@ background-color: rgb(255, 255, 255)
                  </font>
                 </property>
                 <property name="text">
-                 <string/>
+                 <string>(Audio text will show in here if it is supported)</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QWidget" name="mainAudioVisual" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="minimumSize">
                  <size>
-                  <width>0</width>
-                  <height>0</height>
+                  <width>600</width>
+                  <height>140</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>9999</width>
                   <height>9999</height>
+                 </size>
+                </property>
+                <property name="sizeIncrement">
+                 <size>
+                  <width>0</width>
+                  <height>100</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -694,21 +677,21 @@ background-color: rgb(255, 255, 255)
                 </property>
                </widget>
               </item>
+              <item>
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -746,31 +729,6 @@ background-color: rgb(255, 255, 255)
              <property name="bottomMargin">
               <number>11</number>
              </property>
-             <item>
-              <widget class="QWidget" name="recordWaveDisplay" native="true">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>500</width>
-                 <height>300</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>500</width>
-                 <height>300</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(0, 0, 0);</string>
-               </property>
-              </widget>
-             </item>
              <item>
               <widget class="QLabel" name="recordTimeTitle">
                <property name="maximumSize">
@@ -987,6 +945,41 @@ background-color: rgb(145, 145, 145)
                </item>
               </layout>
              </item>
+             <item>
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>For resuming, click one more time &quot;pause&quot; to resume.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="recordMessage">
+               <property name="font">
+                <font>
+                 <family>Times New Roman</family>
+                 <weight>75</weight>
+                 <italic>true</italic>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </item>
           </layout>
@@ -1061,33 +1054,18 @@ background-color: rgb(145, 145, 145)
              <property name="spacing">
               <number>7</number>
              </property>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="minimumSize">
+             <item row="0" column="2">
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
                 <size>
-                 <width>140</width>
+                 <width>40</width>
                  <height>20</height>
                 </size>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>140</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Sample Rate:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-               </property>
-              </widget>
+              </spacer>
              </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_9">
@@ -1114,48 +1092,26 @@ background-color: rgb(145, 145, 145)
                </property>
               </widget>
              </item>
-             <item row="0" column="2">
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="editFileName">
+               <property name="enabled">
+                <bool>false</bool>
                </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_10">
                <property name="minimumSize">
                 <size>
-                 <width>140</width>
+                 <width>200</width>
                  <height>20</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>140</width>
+                 <width>200</width>
                  <height>20</height>
                 </size>
                </property>
-               <property name="font">
-                <font>
-                 <family>Times New Roman</family>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Sample Width:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-               </property>
               </widget>
              </item>
-             <item row="3" column="0">
+             <item row="1" column="0">
               <widget class="QLabel" name="label_11">
                <property name="minimumSize">
                 <size>
@@ -1183,64 +1139,7 @@ background-color: rgb(145, 145, 145)
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="editFileName">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="1">
-              <widget class="QLineEdit" name="editSampleRate">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLineEdit" name="editSampleWidth">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
               <widget class="QLineEdit" name="editDuration">
                <property name="enabled">
                 <bool>false</bool>
@@ -1384,7 +1283,16 @@ QSlider::handle:horizontal {
     width: 10px;
     margin: -5px 0;
     border-radius: 9px;
-}</string>
+}
+
+
+ QSlider::add-page:horizontal {
+     background: rgba(255, 255, 255, 10);
+ }
+
+ QSlider::sub-page:horizontal {
+     background: rgab(0, 0, 0, 200);
+ }</string>
              </property>
              <property name="maximum">
               <number>999</number>
@@ -1493,7 +1401,16 @@ QSlider::handle:horizontal {
     width: 10px;
     margin: -5px 0;
     border-radius: 9px;
-}</string>
+}
+
+
+ QSlider::add-page:horizontal {
+     background: rgba(255, 255, 255, 10);
+ }
+
+ QSlider::sub-page:horizontal {
+     background: rgab(0, 0, 0, 200);
+ }</string>
              </property>
              <property name="maximum">
               <number>999</number>
@@ -1564,6 +1481,37 @@ QSlider::handle:horizontal {
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
               <widget class="QPushButton" name="cutAndSaveBtn">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 2px solid #C4C4C3;
+     border-radius: 4px;
+     min-width: 8ex;
+     padding: 2px;
+}
+
+QPushButton:hover{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QPushButton:pressed{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);
+}
+
+</string>
+               </property>
                <property name="text">
                 <string>Cut and save</string>
                </property>
@@ -1589,13 +1537,28 @@ QSlider::handle:horizontal {
              <property name="font">
               <font>
                <family>Times New Roman</family>
-               <pointsize>12</pointsize>
+               <pointsize>10</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
              <property name="text">
-              <string>For Overwriting: Please record a new audio first</string>
+              <string>For Overwriting: Please record a new audio or import another audio first</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="font">
+              <font>
+               <family>Times New Roman</family>
+               <pointsize>10</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>It will overwriting from starting time</string>
              </property>
             </widget>
            </item>
@@ -1797,7 +1760,7 @@ background-color: rgb(145, 145, 145)
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
+                 <width>40</width>
                  <height>30</height>
                 </size>
                </property>
@@ -1807,10 +1770,87 @@ button[disabled]{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
-}</string>
+}
+
+QPushButton{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 2px solid #C4C4C3;
+     border-radius: 4px;
+     min-width: 8ex;
+     padding: 2px;
+}
+
+QPushButton:hover{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QPushButton:pressed{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);
+}
+
+
+</string>
                </property>
                <property name="text">
                 <string>Overwriting</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="importCoverFIle">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 2px solid #C4C4C3;
+     border-radius: 4px;
+     min-width: 8ex;
+     padding: 2px;
+}
+
+QPushButton:hover{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QPushButton:pressed{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);
+}
+
+</string>
+               </property>
+               <property name="text">
+                <string>Import</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string/>
                </property>
               </widget>
              </item>
@@ -1907,25 +1947,56 @@ button[disabled]{
               <widget class="QLineEdit" name="pitchValue">
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
-                 <height>20</height>
+                 <width>150</width>
+                 <height>30</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>100</width>
-                 <height>20</height>
+                 <width>150</width>
+                 <height>30</height>
                 </size>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pitchChange">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>30</height>
+                </size>
+               </property>
                <property name="maximumSize">
                 <size>
                  <width>100</width>
-                 <height>20</height>
+                 <height>30</height>
                 </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 2px solid #C4C4C3;
+     border-radius: 4px;
+     min-width: 8ex;
+     padding: 2px;
+}
+
+QPushButton:hover{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QPushButton:pressed{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);
+}
+
+</string>
                </property>
                <property name="text">
                 <string>Change</string>
@@ -1966,6 +2037,37 @@ button[disabled]{
             <layout class="QHBoxLayout" name="horizontalLayout_14">
              <item>
               <widget class="QPushButton" name="noiseRemoveBtn">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 2px solid #C4C4C3;
+     border-radius: 4px;
+     min-width: 8ex;
+     padding: 2px;
+}
+
+QPushButton:hover{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QPushButton:pressed{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);
+}
+
+</string>
+               </property>
                <property name="text">
                 <string>Process</string>
                </property>
@@ -2131,7 +2233,7 @@ button[disabled]{
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>99999</width>
+                  <width>600</width>
                   <height>300</height>
                  </size>
                 </property>
@@ -2141,7 +2243,7 @@ button[disabled]{
                <widget class="QPushButton" name="SavingPathEdit">
                 <property name="minimumSize">
                  <size>
-                  <width>300</width>
+                  <width>40</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -2150,6 +2252,31 @@ button[disabled]{
                   <width>300</width>
                   <height>30</height>
                  </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 2px solid #C4C4C3;
+     border-radius: 4px;
+     min-width: 8ex;
+     padding: 2px;
+}
+
+QPushButton:hover{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+QPushButton:pressed{
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #e7e7e7, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #eeeeee, stop: 1.0 #fafafa);
+}
+
+</string>
                 </property>
                 <property name="text">
                  <string>Edit Path</string>
@@ -2662,7 +2789,7 @@ color: rgb(255, 255, 255)
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1080</width>
+     <width>820</width>
      <height>26</height>
     </rect>
    </property>

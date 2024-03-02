@@ -6,6 +6,7 @@ from ImportHandler import ImportHandler
 import playback
 import datetime
 import re
+import os
 import clipping
 from record import Audio
 from PyQt5.QtCore import QTimer
@@ -20,6 +21,9 @@ class AudioEditingHandler:
     recordedAudio = None
     timer = None
     currentRecordedTime = 0
+    fileName2 = ""
+    filePath2 = ""
+    isPaused = False
 
     def __init__(self, uiElements:Ui_mainWindow, mainWindow:QMainWindow, importHandler:ImportHandler):
         self.uiElements = uiElements
@@ -55,6 +59,9 @@ class AudioEditingHandler:
 
         # Add the listener for the editStopRecBtn button
         self.uiElements.editStopRecBtn.clicked.connect(self.__editStopRecButtonClicked)
+
+        # Add the listener for the importCoverFIleBtn button
+        self.uiElements.importCoverFIle.clicked.connect(self.__fileSelected)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.__updateTime)
@@ -149,11 +156,18 @@ class AudioEditingHandler:
         if not self.validTime():
             self.uiElements.editingMessage.setText("Invalid time input")
             return
+
+        # check the file is selected or not
+        if self.fileName2 == "" or self.filePath2 == "" or self.filePath == "" or self.fileName == "":
+            self.uiElements.editingMessage.setText("No file selected")
+            return
+
         # set the editing message and display all varaibles
-        self.uiElements.editingMessage.setText(f"In AudioEditingHandler:__overwriteButtonClicked(), st:{self.audioStartTime} et:{self.audioEndTime} path:{self.fileName}")
+        self.uiElements.editingMessage.setText("File is overwritten, a new file (overwrite.wav) is created")
+
 
         # overwrite the audio file
-        clipping.overwrite(self.filePath, "temp.wav", self.audioStartTime)
+        clipping.overwrite(self.filePath, self.filePath2, self.audioStartTime)
         
   
     # listener for the editRecordBtn button
@@ -189,8 +203,24 @@ class AudioEditingHandler:
     
     # listener for the editPauseRecBtn button
     def __editPauseRecButtonClicked(self):
-        # set the player message
-        self.uiElements.editingMessage.setText("Recording paused [no function working]")
+        if self.isPaused:
+            self.isPaused = False
+            self.uiElements.editingMessage.setText("Resume Recording...")
+
+            # reusme the recording
+            self.recordedAudio.start_recording()
+
+            # start the timer
+            self.timer.start(1000)
+        else:
+            self.isPaused = True
+            self.uiElements.editingMessage.setText("Recording paused")
+
+            # stop the timer
+            self.timer.stop()
+
+            # pause the recording
+            self.recordedAudio.pause_recording()
 
     # listener for the editStopRecBtn button
     def __editStopRecButtonClicked(self):
@@ -214,10 +244,17 @@ class AudioEditingHandler:
         # write the file
         self.recordedAudio.write("temp.wav")
 
+        # set the file2 and path2
+        self.fileName2 = "temp.wav"
+        self.filePath2 = os.getcwd() + "\\temp.wav"
+
+        print(self.filePath2)
+
+        # set the tips
+        self.uiElements.owTips.setText("temp.wav")
+
         # availabe the overwriteBtn
         self.uiElements.overwriteBtn.setEnabled(True)
-
-
 
     # return a string of the time in hh:mm:ss format
     def seconds_to_time(self, seconds) -> str :
@@ -271,3 +308,14 @@ class AudioEditingHandler:
 
         # set the time
         self.uiElements.editRecordTime.setText(f"{hours:02}:{minutes:02}:{seconds:02}")
+
+    def __fileSelected(self):
+        # get the file path
+        self.filePath2 = QFileDialog.getOpenFileName(self.mainWindow, "Select File", os.getcwd(), "Audio Files (*.wav)")[0]
+        self.fileName2 = os.path.basename(self.filePath2)
+        if(self.fileName2 != ""):
+            # set the tips
+            self.uiElements.owTips.setText(self.fileName2)
+
+            # availabe the overwriteBtn
+            self.uiElements.overwriteBtn.setEnabled(True)
